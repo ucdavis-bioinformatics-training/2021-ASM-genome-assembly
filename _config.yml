@@ -1,0 +1,17 @@
+theme: jekyll-theme-minimal
+title: 'Assembling and Annotating Bacterial Genomes Using PacBio Long Reads'
+show_downloads: True
+google_analytics: True
+navigation:
+  - title: Home
+    url: /
+  - title: Technology, Data, and Experimental Design
+    url: technology
+  - title: Assembly, Assembly Metrics, and Quality Control
+    url: assembly
+  - title: Annotation
+    url: annotation
+  - title: Typing and Comparative Analyses
+    url: typing
+  - title: Support
+    url: support
