@@ -24,7 +24,7 @@ The 16S rRNA gene encodes for the structural element of the small subunit of the
 
 Interestingly, the 16S rRNA contains several conserved and variable regions – that are connect with its structure.
 
-**IMAGE**
+![16S RNAr gene](fig_bact_tax/16S_domain_structure.png) 
 
 Stacy Yudina, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons.
 
@@ -47,13 +47,13 @@ Once you have barrnap ready to run, you will only need your genome in .fasta fil
 
 `barrnap --help`
 
-**IMAGE**
+![barrnap_Help](fig_bact_tax/Figures_barrnap1.png)
 
 `barrnap -o 16S_bacillus.fasta < bacillus.fasta > 16S_bacillus.gff3`
 
 `head 16S_bacillus.gff3`
 
-**IMAGE** 
+![barrnap_gff3](fig_bact_tax/Figures_barrnap2.png)
 
 More information about .gff3 file [here](https://m.ensembl.org/info/website/upload/gff3.html).
 
@@ -61,7 +61,7 @@ Bacteria can have more than one copy of the 16S gene. Our isolate here have 14 c
 
 `head -n2 16S_bacillus.fasta`
 
-**IMAGE**  
+![barrnap_seq](fig_bact_tax/Figures_barrnap3.png)
 
 Once you have one or more 16S rRNA genes from your genome, you can use different databases to identify your bacteria. I recommend three: 
 1.	Ribosomal Database Project [Classifier Tool](https://rdp.cme.msu.edu/help/CL.jsp) allows classification of both bacterial and archaeal 16S rRNA sequences to the taxonomical hierarchy.
