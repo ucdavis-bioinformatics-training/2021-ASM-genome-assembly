@@ -11,7 +11,7 @@ Definition of [Cowan et al. 1964](https://www.microbiologyresearch.org/content/j
 
 >(1) Classification, the orderly arrangement of units into groups of larger units. A simple analogy can be found in a pack of cards; the individual cards can first be sorted by color, then into suits. Within each suit the cards can be arranged in a numerical sequence, and the face cards placed in some order of seniority.
 >
->(2) Nomenclature, the naming of the units defined and delineated by the classification. In the example of cards, the face cards are given names and more than one name, for example, jack or knave, may be given to the same card.
+>(2) Nomenclature, the naming of the units defined and delineated by the classification. In the example of cards, the face cards are given names [...].
 >
 >(3) Identification of unknown units with known units of the classification developed in (1) and bearing names given in (2).
 
@@ -64,7 +64,7 @@ Bacteria can have more than one copy of the 16S gene. Our isolate has 14 copies 
 ![barrnap_seq](fig_bact_tax/Figures_barrnap3.png)
 
 Once you have one or more 16S rRNA genes from your genome, you can use different databases to identify your bacteria. I recommend three: 
-1.	Ribosomal Database Project [Classifier Tool](https://rdp.cme.msu.edu/help/CL.jsp) allows classification of both bacterial and archaeal 16S rRNA sequences to the taxonomical hierarchy.
+1.	Ribosomal Database Project (RDP) [Classifier Tool](https://rdp.cme.msu.edu/help/CL.jsp) allows classification of both bacterial and archaeal 16S rRNA sequences to the taxonomical hierarchy.
 
 2.	Silva rRNA database project [ACT: Alignment, Classification and Tree Service](https://www.arb-silva.de/aligner/).
 
@@ -120,7 +120,7 @@ Alternatively, you can download all the genomes close to your bacterial isolate 
 
 ![Figure from dataset](fig_bact_tax/datasets.png)
 
-In our example, we downloaded all complete genomes of Bacillus cereus group that were available at NCBI using their accession number. You can find the list [here](fig_bact_tax/accessions.txt).
+In our example, we downloaded all complete genomes of _Bacillus cereus_ group that were available at NCBI using their accession number. You can find the list [here](fig_bact_tax/accessions.txt).
 
 First, we will compare our genome with a reference genome:
 
