@@ -74,7 +74,7 @@ Once you have one or more 16S rRNA genes from your genome, you can use different
 >**SINA Search and Classify**
 >Enabling "Search and classify" will force SINA to additionally classify your sequences with the least common ancestor (LCA) method based on the taxonomies hosted by SILVA.
 
-3.	Blastn of [National Center for Biotechnology Information (NCBI)]( https://blast.ncbi.nlm.nih.gov/Blast.cgi)
+3.	Blastn of [National Center for Biotechnology Information (NCBI)](https://blast.ncbi.nlm.nih.gov/Blast.cgi)
 
 ## Average Nucleotide Identity (ANI)
 
@@ -84,7 +84,7 @@ When you have the whole-genome of a bacterial species, you should consider more 
 
 The ANI considers all protein-coding genes between two species to measure their genetic relatedness through alignment. [Konstantinidis and Tiedje (2005)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC549018/) showed that ANI strongly correlates with both 16S rRNA gene sequence identity and DNA–DNA reassociation values.
 
-![Figure from Konstantinidis and Tiedje (2005)](XXX)
+![Figure from Konstantinidis and Tiedje (2005)](fig_bact_tax/Figure_Kon_Tiedje_2005.png)
 
 Figure from [Konstantinidis and Tiedje (2005)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC549018/).
 
@@ -102,7 +102,7 @@ Then, we will follow the instructions on the **INSTALL.txt** file:
 
 `cat INSTALL.txt`
 
-![Figure from output cat INSTALL.txt](XXX)
+![Figure from output cat INSTALL.txt](fig_bact_tax/FastANI_Install.png)
 
 `./bootstrap.sh`
 
@@ -110,15 +110,15 @@ Then, we will follow the instructions on the **INSTALL.txt** file:
 
 `make`
 
-Alternatively, you can install FastANI via [conda]( https://anaconda.org/bioconda/fastani).
+Alternatively, you can install FastANI via [conda](https://anaconda.org/bioconda/fastani).
 
 Now, FastANI is installed and ready to be used. You can manually look for bacterial isolates that are close to your genome on different databases, and you can use the previously recovered 16S rRNA gene of your genome to help you on this task. For example, if you use [Blastn]( https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) with megablast, you will see the following result:
 
-![Figure from megablast](XXX)
+![Figure from megablast](fig_bact_tax/Blast2.png)
 
 Alternatively, you can download all the genomes close to your bacterial isolate with [datasets](https://www.ncbi.nlm.nih.gov/datasets/docs/command-line-start) from NCBI. Datasets is a command-line tool that is used to query and download biological sequence data from NCBI.
 
-![Figure from dataset](XXX)
+![Figure from dataset](fig_bact_tax/datasets.png)
 
 In our example, we downloaded all complete genomes of Bacillus cereus group that were available at NCBI using their accession number. You can find the list [here](download list).
 
@@ -149,7 +149,15 @@ The result will be outputted in the same format, but with several lines, each li
 **/path/to/bacillus.fasta /path/to/reference_genome3.fasta 98.8536 1658    1785**
 
 
+### Available online tools
+#### GTDB-tk
+[The Department of Energy Systems Biology Knowledgebase (KBase)]( https://www.kbase.us) provides in their catalog the [Genome Taxonomy Database (GTDB)](https://github.com/Ecogenomics/GTDBTk) that assigns objective taxonomic classifications to bacterial genomes.
 
+![Figure from GTDB-tk](fig_bact_tax/GTDB-tk.png)
 
+#### MiGA
+The Microbial Genomes Atlas Online (MiGA) is a webserver that allows the classification of a query sequence and that provides different tools to bacterial taxonomy and genome quality.
+
+![Figure from MiGA](fig_bact_tax/MiGA.png)
 
 
