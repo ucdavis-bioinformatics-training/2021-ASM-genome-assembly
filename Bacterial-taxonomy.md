@@ -74,8 +74,82 @@ Once you have one or more 16S rRNA genes from your genome, you can use different
 >**SINA Search and Classify**
 >Enabling "Search and classify" will force SINA to additionally classify your sequences with the least common ancestor (LCA) method based on the taxonomies hosted by SILVA.
 
-3.	Blastn of NCBI
+3.	Blastn of [National Center for Biotechnology Information (NCBI)]( https://blast.ncbi.nlm.nih.gov/Blast.cgi)
 
-## Average Nucleotide Identity
+## Average Nucleotide Identity (ANI)
+
+### What is ANI?
+
+When you have the whole-genome of a bacterial species, you should consider more robust methods to identify your bacterium than using only the 16S rRNA gene. A pragmatic species circumscription of two bacteria is when they have at least 70% of DNA–DNA hybridization, that corresponds to ~ 94% of the Average Nucleotide Identity (ANI). 
+
+The ANI considers all protein-coding genes between two species to measure their genetic relatedness through alignment. [Konstantinidis and Tiedje (2005)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC549018/) showed that ANI strongly correlates with both 16S rRNA gene sequence identity and DNA–DNA reassociation values.
+
+![Figure from Konstantinidis and Tiedje (2005)](XXX)
+
+Figure from [Konstantinidis and Tiedje (2005)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC549018/).
+
+Interestingly, there are several variations of the original ANI calculation algorithm. Some of them might consider the whole genome fragmented to perform the comparison, such as OrthoANI, while others will use genome-wide Average Nucleotide Identity (gANI).
+
+### FastANI
+
+Today, we will use [FastANI](https://github.com/ParBLiSS/FastANI) to identify our bacterial whole-genome. FastANI is an alignment-free computation of whole-genome ANI. This is a fast, yet reliable tool to perform bacterial identification against one particular isolate or a database.
+
+First, we will need to install FastANI in our computer or server:
+
+`git clone https://github.com/ParBLiSS/FastANI.git`
+
+Then, we will follow the instructions on the **INSTALL.txt** file:
+
+`cat INSTALL.txt`
+
+![Figure from output cat INSTALL.txt](XXX)
+
+`./bootstrap.sh`
+
+`./configure --prefix=</path/to/install> --with-gsl=</path/to/gsl/> OR --with-boost==</path/to/boost/>`
+
+`make`
+
+Alternatively, you can install FastANI via [conda]( https://anaconda.org/bioconda/fastani).
+
+Now, FastANI is installed and ready to be used. You can manually look for bacterial isolates that are close to your genome on different databases, and you can use the previously recovered 16S rRNA gene of your genome to help you on this task. For example, if you use [Blastn]( https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) with megablast, you will see the following result:
+
+![Figure from megablast](XXX)
+
+Alternatively, you can download all the genomes close to your bacterial isolate with [datasets](https://www.ncbi.nlm.nih.gov/datasets/docs/command-line-start) from NCBI. Datasets is a command-line tool that is used to query and download biological sequence data from NCBI.
+
+![Figure from dataset](XXX)
+
+In our example, we downloaded all complete genomes of Bacillus cereus group that were available at NCBI using their accession number. You can find the list [here](download list).
+
+First, we will compare our genome with a reference genome:
+
+`./fastANI -q /path/to/bacillus.fasta -r /path/to/reference_genome.fasta -o /path/to/fastani_results.out`
+
+Results:
+
+`cat fastani_results.out`
+
+**/path/to/bacillus.fasta /path/to/reference_genome.fasta 96.2886 1595	1785**
+
+The previous result shows that ANI estimate between bacillus.fasta and reference_genome.fasta is 96.2886. Out of the total 1785 sequence fragments from _Bacillus_ genome, 1595 were aligned as orthologous matches.
+
+Now, we will compare our genome with multiple reference genomes:
+
+`./fastANI -q /path/to/bacillus.fasta --rl /path/to/reference_list.txt -o /path/to/fastani_results_multiple.out`
+
+The result will be outputted in the same format, but with several lines, each line being a comparison between our genome and a reference genome.
+
+`head -n3 fastani_results_multiple.out`
+
+**/path/to/bacillus.fasta /path/to/reference_genome1.fasta 99.0552 1689    1785**
+
+**/path/to/bacillus.fasta /path/to/reference_genome2.fasta 98.9125 1676    1785**
+
+**/path/to/bacillus.fasta /path/to/reference_genome3.fasta 98.8536 1658    1785**
+
+
+
+
 
 
