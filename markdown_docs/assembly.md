@@ -36,6 +36,7 @@ First, we will need to count the occurrence of each ZMW. Using [samtools/1.9](ht
 8. Reorder columns, separating them with a comma
 9. Append output to the CSV
 
+While steps 2 through 9 could be run on a single line, we have split the command over multiple lines to make it easier to see what is going on.
 
     mkdir 03-zmwCounts
     echo "zmw,counts" > 03-zmwCounts/isi_run_01.csv
