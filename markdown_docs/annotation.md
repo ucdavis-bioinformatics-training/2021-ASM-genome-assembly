@@ -26,7 +26,7 @@ Once the above two components are properly installed, one could follow the instr
     curl -OL https://github.com/ncbi/pgap/raw/prod/scripts/pgap.py
     ./pgap.py --update
 
-The input to PGAP is the final assembled genome fasta file. One could download the file using the following command ** if the previous assembly step has not finished **.
+The input to PGAP is the final assembled genome fasta file. One could download the file using the following command **if the previous assembly step has not finished**.
 
     wget https://bioshare.bioinformatics.ucdavis.edu/bioshare/download/ua4gjm2jyj12oxl/baccanu.contigs.fasta
 
