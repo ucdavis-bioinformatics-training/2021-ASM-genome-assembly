@@ -1,0 +1,41 @@
+topology: circular
+organism:
+    genus_species: 'Bacillus'
+    strain: ''
+contact_info:
+    last_name: 'Bonatelli'
+    first_name: 'Maria'
+    email: 'mlbonatelli@ucdavis.edu'
+    organization: 'University California Davis'
+    department: 'Genome Center'
+    phone: 'NA'
+    street: 'UC Davis'
+    city: 'Davis'
+    postal_code: '95616'
+    country: 'USA'
+authors:
+    -     author:
+            first_name: 'Maria'
+            last_name: 'Bonatelli'
+            middle_initial: 'Leticia'
+    -     author:
+            first_name: 'Second'
+            last_name: 'Author'
+bioproject: ''
+biosample: ''
+# -- Locus tag prefix - optional. Limited to 9 letters. Unless the locus tag prefix was officially assigned by NCBI, ENA, or DDBJ, it will be replaced upon submission of the annotation to NCBI and is therefore temporary and not to be used in publications. If not provided, pgaptmp will be used.
+locus_tag_prefix: 'tmp'
+publications:
+    - publication:
+        pmid: 16397293
+        title: 'Discrete CHARMm of Klebsiella foobarensis. Journal of Improbable Results, vol. 34, issue 13, pages: 10001-100005, 2018'
+        status: published  # this is enum: controlled vocabulary
+        authors:
+            - author:
+                first_name: 'Arnold'
+                last_name: 'Schwarzenegger'
+                middle_initial: 'T'
+            - author:
+                  first_name: 'Linda'
+                  last_name: 'Hamilton'
+
