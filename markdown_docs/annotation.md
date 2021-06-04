@@ -7,7 +7,7 @@ Annotating a bacterial genome involves two major steps: structural annotation an
 
 There are a few annotation pipelines designed for annotating bacterial genomes.
 
-1. NCBI's Prokaryotic Genome Annotation Pipeline (PGAP)[](https://github.com/ncbi/pgap)
+1. NCBI's Prokaryotic Genome Annotation Pipeline [PGAP](https://github.com/ncbi/pgap)
 2. Prokka [prokarytoic annotation](https://github.com/tseemann/prokka)
 3. RAST [Rapid Annotations using Subsystem Technology](https://rast.nmpdr.org/)
 4. DRAM [Distilled and Refined Annotation of Metabolism](https://github.com/shafferm/DRAM)
