@@ -108,7 +108,7 @@ The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/lates
 
 Two contigs are produced. This visualization of the assembly was created in [Bandage](https://rrwick.github.io/Bandage/).
 
-![Canu assembly of CCS reads viewed in Bandage](assembly_figures/bandage_entire_graph.svg)
+![Canu assembly of CCS reads viewed in Bandage](assembly_figures/bandage_entire_graph.svg | width=100)
 
 ### Polish the assembly using PacBio reads
 
