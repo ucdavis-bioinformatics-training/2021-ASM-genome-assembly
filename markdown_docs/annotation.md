@@ -15,7 +15,7 @@ There are a few annotation pipelines designed for annotating bacterial genomes.
 ## Introduction to PGAP
 Running PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher, and minimum 80GB disk space). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP. 
 
-![Pipeline2](./annotation_figures/PGAP_flowchart.png)
+![PGAP](./annotation_figures/PGAP_flowchart.png)
 
 
 ## Running PGAP
