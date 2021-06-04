@@ -24,7 +24,7 @@ The 16S rRNA gene encodes for the structural element of the small subunit of the
 
 Interestingly, the 16S rRNA contains several conserved and variable regions – that are connect with its structure.
 
-![16S RNAr gene](fig_bact_tax/16S_domain_structure.png) 
+<img src="fig_bact_tax/16S_domain_structure.png" alt="16S rRNA gene" width="50%"/>
 
 Stacy Yudina, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons.
 
@@ -45,23 +45,23 @@ To use Barrnap, you can install it via Conda or Homebrew/Linuxbrew, depending on
 
 Once you have Barrnap ready to run, you will only need your genome in .fasta file. In this example, I am using Barrnap v. 0.9:
 
-`barrnap -help`
+    barrnap -help
 
-![barrnap_Help](fig_bact_tax/Figures_barrnap1.png)
+<img src="fig_bact_tax/Figures_barrnap1.png" alt="barrnap_Help" width="80%"/>
 
-`barrnap -o 16S_bacillus.fasta < bacillus.fasta > 16S_bacillus.gff3`
+    barrnap -o 16S_bacillus.fasta < bacillus.fasta > 16S_bacillus.gff3
 
-`head 16S_bacillus.gff3`
+    head 16S_bacillus.gff3
 
-![barrnap_gff3](fig_bact_tax/Figures_barrnap2.png)
+<img src="fig_bact_tax/Figures_barrnap2.png" alt="barrnap_gff3" width="80%"/>
 
 More information about .gff3 file [here](https://m.ensembl.org/info/website/upload/gff3.html).
 
 Bacteria can have more than one copy of the 16S gene. Our isolate has 14 copies of this gene.
 
-`head -n2 16S_bacillus.fasta`
+    head -n2 16S_bacillus.fasta
 
-![barrnap_seq](fig_bact_tax/Figures_barrnap3.png)
+<img src="fig_bact_tax/Figures_barrnap3.png" alt="barrnap_seq" width="80%"/>
 
 Once you have one or more 16S rRNA genes from your genome, you can use different databases to identify your bacteria. I recommend three: 
 1.	Ribosomal Database Project (RDP) [Classifier Tool](https://rdp.cme.msu.edu/help/CL.jsp) allows classification of both bacterial and archaeal 16S rRNA sequences to the taxonomical hierarchy.
@@ -84,7 +84,7 @@ When you have the whole-genome of a bacterial species, you should consider more 
 
 The ANI considers all protein-coding genes between two species to measure their genetic relatedness through alignment. [Konstantinidis and Tiedje (2005)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC549018/) showed that ANI strongly correlates with both 16S rRNA gene sequence identity and DNA–DNA reassociation values.
 
-![Figure from Konstantinidis and Tiedje (2005)](fig_bact_tax/Figure_Kon_Tiedje_2005.png)
+<img src="fig_bact_tax/Figure_Kon_Tiedje_2005.png" alt="Figure from Konstantinidis and Tiedje (2005)" width="80%"/>
 
 Figure from [Konstantinidis and Tiedje (2005)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC549018/).
 
@@ -96,29 +96,29 @@ Today, we will use [FastANI](https://github.com/ParBLiSS/FastANI) to identify ou
 
 First, we will need to install FastANI in our computer or server:
 
-`git clone https://github.com/ParBLiSS/FastANI.git`
+    git clone https://github.com/ParBLiSS/FastANI.git
 
 Then, we will follow the instructions on the **INSTALL.txt** file. Alternatively, you can install FastANI via [conda](https://anaconda.org/bioconda/fastani).
 
 Now, FastANI is installed and ready to be used. You can manually look for bacterial isolates that are close to your genome on different databases, and you can use the previously recovered 16S rRNA gene of your genome to help you on this task. For example, if you use [Blastn]( https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) with megablast, you will see the following result:
 
-![Figure from megablast](fig_bact_tax/Blast2.png)
+<img src="fig_bact_tax/Blast2.png" alt="Megablast" width="80%"/>
 
 Alternatively, you can download all the genomes close to your bacterial isolate with [datasets](https://www.ncbi.nlm.nih.gov/datasets/docs/command-line-start) from NCBI. Datasets is a command-line tool that is used to query and download biological sequence data from NCBI.
 
-`datasets download -h`
+    datasets download -h
 
-![Figure from dataset](fig_bact_tax/datasets.png)
+<img src="fig_bact_tax/datasets.png" alt="Datasets NCBI" width="80%"/>
 
 In our example, we downloaded all complete genomes of _Bacillus cereus_ group that were available at NCBI using their accession number. You can find the list [here](fig_bact_tax/accessions.txt).
 
 First, we will compare our genome with a reference genome:
 
-`./fastANI -q /path/to/bacillus.fasta -r /path/to/reference_genome.fasta -o /path/to/fastani_results.out`
+    ./fastANI -q /path/to/bacillus.fasta -r /path/to/reference_genome.fasta -o /path/to/fastani_results.out
 
 Results:
 
-`cat fastani_results.out`
+    cat fastani_results.out
 
 **/path/to/bacillus.fasta /path/to/reference_genome.fasta 96.2886 1595	1785**
 
@@ -126,11 +126,11 @@ The previous result shows that ANI estimate between bacillus.fasta and reference
 
 Now, we will compare our genome with multiple reference genomes:
 
-`./fastANI -q /path/to/bacillus.fasta --rl /path/to/reference_list.txt -o /path/to/fastani_results_multiple.out`
+    ./fastANI -q /path/to/bacillus.fasta --rl /path/to/reference_list.txt -o /path/to/fastani_results_multiple.out
 
 The result will be outputted in the same format, but with several lines, each line being a comparison between our genome and a reference genome.
 
-`head -n3 fastani_results_multiple.out`
+    head -n3 fastani_results_multiple.out
 
 **/path/to/bacillus.fasta /path/to/reference_genome1.fasta 99.0552 1689    1785**
 
@@ -143,11 +143,9 @@ The result will be outputted in the same format, but with several lines, each li
 #### GTDB-tk
 [The Department of Energy Systems Biology Knowledgebase (KBase)]( https://www.kbase.us) provides in their catalog the [Genome Taxonomy Database (GTDB)](https://github.com/Ecogenomics/GTDBTk) that assigns objective taxonomic classifications to bacterial genomes.
 
-![Figure from GTDB-tk](fig_bact_tax/GTDB-tk.png)
+<img src="fig_bact_tax/GTDB-tk.png" alt="GTDB-tk" width="80%"/>
 
 #### MiGA
 The Microbial Genomes Atlas Online (MiGA) is a webserver that allows the classification of a query sequence and that provides different tools to bacterial taxonomy and genome quality.
 
-![Figure from MiGA](fig_bact_tax/MiGA.png)
-
-
+<img src="fig_bact_tax/MiGA.png" alt="MiGA" width="80%"/>
