@@ -12,7 +12,7 @@ We will be working with two PacBio sequencing runs from a *Bacillus* species. Be
 
 #### How many reads are there?
 
-The bam stats tool from [bamutil](https://github.com/statgen/bamUtil/releases/tag/v1.0.14) allows us to quickly count the reads in each run.
+The bam stats tool from [bamutil](https://github.com/statgen/bamUtil/) allows us to quickly count the reads in each run.
 
     mkdir 01-bamStats
     bam stats --in 00-RawData/isi_run_01/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam \
@@ -24,7 +24,7 @@ The bam stats tool from [bamutil](https://github.com/statgen/bamUtil/releases/ta
 
 #### What does the ZMW count distribution look like?
 
-First, we will need to count the occurrence of each ZMW. Using [samtools/1.9](https://github.com/samtools/samtools/releases/tag/1.9) and a few basic text manipulation tools on the command line, we can derive a comma separated counts table of ZMWs from the PacBio read data. The multi-line command below will:
+First, we will need to count the occurrence of each ZMW. Using [samtools](https://github.com/samtools/samtools/releases/tag/1.9) and a few basic text manipulation tools on the command line, we can derive a comma separated counts table of ZMWs from the PacBio read data. The multi-line command below will:
 
 1. Create a CSV file containing a header
 2. Convert from SAM to BAM
@@ -38,8 +38,8 @@ First, we will need to count the occurrence of each ZMW. Using [samtools/1.9](ht
 
 While steps 2 through 9 could be run on a single line, we have split the command over multiple lines to make it easier to see what is going on.
 
-    mkdir 03-zmwCounts
-    echo "zmw,counts" > 03-zmwCounts/isi_run_01.csv
+    mkdir 02-zmwCounts
+    echo "zmw,counts" > 02-zmwCounts/isi_run_01.csv
     samtools view 00-RawData/isi_run_01/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam | \
     cut -f1 | \
     cut -d '/' -f2 | \
@@ -47,8 +47,8 @@ While steps 2 through 9 could be run on a single line, we have split the command
     uniq -c | \
     tr -s ' ' | \
     awk -F ' ' '{print $2 "," $1}' \
-    >> 03-zmwCounts/isi_run_01.csv
-    echo "zmw,counts" > 03-zmwCounts/isi_run_02.csv
+    >> 02-zmwCounts/isi_run_01.csv
+    echo "zmw,counts" > 02-zmwCounts/isi_run_02.csv
     samtools view 00-RawData/isi_run_02/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam | \
     cut -f1 | \
     cut -d '/' -f2 | \
@@ -56,11 +56,11 @@ While steps 2 through 9 could be run on a single line, we have split the command
     uniq -c | \
     tr -s ' ' | \
     awk -F ' ' '{print $2 "," $1}' \
-    >> 03-zmwCounts/isi_run_02.csv
+    >> 02-zmwCounts/isi_run_02.csv
 
 The ZMW counts CSV files can be imported into R for summary statistics and visualizations.
 
-    run_01 <- read.csv("03-zmwCounts/isi_run_01.csv")
+    run_01 <- read.csv("02-zmwCounts/isi_run_01.csv")
     dim(run_01)
     [1] 8274    2
     sum(run_01$counts)
@@ -68,7 +68,7 @@ The ZMW counts CSV files can be imported into R for summary statistics and visua
     summary(run_01$counts)
     Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
     1.000   2.000   7.000   8.012  12.000  97.000
-    run_02 <- read.csv("03-zmwCounts/isi_run_02.csv")
+    run_02 <- read.csv("02-zmwCounts/isi_run_02.csv")
     dim(run_02)
     [1] 15686     2
     sum(run_02$counts)
@@ -81,31 +81,31 @@ The ZMW counts CSV files can be imported into R for summary statistics and visua
 
 While the second run has approximately twice as many ZMW as the first, the distribution of ZMW counts is similar between the two runs.
 
-### Correct HiFi reads with circular consensus sequencing
+### Convert CLR to CCS
 
-It is possible to assemble uncorrected PacBio [HiFi](https://www.pacb.com/smrt-science/smrt-sequencing/hifi-reads-for-highly-accurate-long-read-sequencing/) reads, and we will try that as well to explore this data. However, circular consensus sequencing (CCS) produces a better assembly. CCS uses sub-reads to generate much more accurate sequence. In order to convert our HiFi to CCS, we will run PacBio's [ccs/4.0.0](https://github.com/PacificBiosciences/ccs/releases/tag/v4.0.0).
+The reads generated from the two PacBio runs are consenusus long reads (CLR). However, circular consensus sequencing (CCS) produces a better a more accurate, higher quality sequence by creating consenus sequence from sub-reads. It's possible to convert CLR to CCS, and if enough read coverage remains after conversion, these reads will generate a higher quality assembly. In order to convert our CLR to CCS, we will run PacBio's [ccs/4.2.0](https://github.com/PacificBiosciences/ccs/).
 
-    ccs --reportFile=04-CCS/isi_run_01.report \
+    ccs --reportFile=03-CCS/isi_run_01.report \
          00-RawData/isi_run_01/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam \
-         04-CCS/isi_run_01.ccs.bam
+         03-CCS/isi_run_01.ccs.bam
 
-    ccs --reportFile=04-CCS/isi_run_02.report \
+    ccs --reportFile=03-CCS/isi_run_02.report \
         00-RawData/isi_run_02/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam \
-        04-CCS/isi_run_02.ccs.bam
+        03-CCS/isi_run_02.ccs.bam
 
 ### Assemble the genome
 
 The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/latest/index.html) takes FASTA formatted reads as input, so we will need to convert our BAM formatted CCS reads to FASTA using samtools.
 
-    samtools fastq 04-CCS/isi_run_01.ccs.bam > 04-CCS/isi_run_01.ccs.fq
-    samtools fastq 04-CCS/isi_run_02.ccs.bam > 04-CCS/isi_run_02.ccs.fq
-    mkdir 05-canu
+    samtools fastq 03-CCS/isi_run_01.ccs.bam > 03-CCS/isi_run_01.ccs.fq
+    samtools fastq 03-CCS/isi_run_02.ccs.bam > 03-CCS/isi_run_02.ccs.fq
+    mkdir 04-HiCanu
     canu -assemble \
          useGrid=False \
          -p bacillus \
-         -d 05-canu \
+         -d 04-HiCanu \
          genomeSize=5.5m \
-         -pacbio-corrected 04-CCS/isi_run_01.ccs.fq 04-CCS/isi_run_02.ccs.fq
+         -pacbio-corrected 03-CCS/isi_run_01.ccs.fq 03-CCS/isi_run_02.ccs.fq
 
 Two contigs are produced. This visualization of the assembly was created in [Bandage](https://rrwick.github.io/Bandage/).
 
@@ -115,16 +115,16 @@ Two contigs are produced. This visualization of the assembly was created in [Ban
 PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus) package includes tools for variant calling and polishing. Here we use the arrow algorithm, version 2.3.3. GenomicConsensus's variantCaller tool uses a file of file names ([FOFN](https://pb-falcon.readthedocs.io/en/latest/tutorial.html#create-fofn)), which is simply a text file containing the path to each read file. Before running variantCaller, we need to align the PacBio reads to the assembly and index the assembly FASTA file.
 
 
-    mkdir 06-arrow
+    mkdir 05-GenomicConsensus
     ls 00-RawData/isi_run_0*/*.bam > raw.fofn
-    pbalign raw.fofn 05-canu/bacillus.contigs.fasta 06-arrow/raw_canu_align.bam
-    samtools flagstat 06-arrow/raw_canu_align.bam -O tsv > 06-arrow/samFlags.tsv
-    samtools faidx 05-canu/bacillus.contigs.fasta
-    variantCaller 06-arrow/raw_canu_align.bam \
+    pbalign raw.fofn 04-HiCanu/bacillus.contigs.fasta 05-GenomicConsensus/raw_canu_align.bam
+    samtools flagstat 05-GenomicConsensus/raw_canu_align.bam -O tsv > 05-GenomicConsensus/samFlags.tsv
+    samtools faidx 04-HiCanu/bacillus.contigs.fasta
+    variantCaller 05-GenomicConsensus/raw_canu_align.bam \
                   --algorithm=arrow \
-                  -r 05-canu/bacillus.contigs.fasta \
-                  -o 06-arrow/variants-raw.gff \
-                  -o 06-arrow/bacillus.arrowcorrected.fasta
+                  -r 04-HiCanu/bacillus.contigs.fasta \
+                  -o 05-GenomicConsensus/variants-raw.gff \
+                  -o 05-GenomicConsensus/bacillus.arrowcorrected.fasta
 
 ### Incorporate short read data
 
@@ -134,52 +134,52 @@ In addition to the two PacBio runs, we have a paired-end Illumina library. Befor
 
 Before aligning the Illumina reads to the PacBio contigs, we will preprocess the reads to remove contaminants, duplicates, and low quality sequence using [HTStream](https://s4hts.github.io/HTStream/).
 
-    mkdir 07-HTStream
-    hts_Stats          --stats-file 07-HTStream/genomeStats.log \
+    mkdir 06-HTStream
+    hts_Stats          --stats-file 06-HTStream/genomeStats.log \
                        --notes "initial statistics" \
                        --read1-input 00-RawData/RZ2M29_S1_L001_R1_001.fastq.gz \
                        --read2-input 00-RawData/RZ2M29_S1_L001_R2_001.fastq.gz | \
-    hts_SeqScreener    --append-stats-file 07-HTStream/genomeStats.log \
+    hts_SeqScreener    --append-stats-file 06-HTStream/genomeStats.log \
                        --notes "remove PhiX" | \
-    hts_SuperDeduper   --append-stats-file 07-HTStream/genomeStats.log \
+    hts_SuperDeduper   --append-stats-file 06-HTStream/genomeStats.log \
                        --notes "deduplicate using 10bp key at 10th position" | \
-    hts_Overlapper     --append-stats-file 07-HTStream/genomeStats.log \
+    hts_Overlapper     --append-stats-file 06-HTStream/genomeStats.log \
                        --notes "merge pairs with >= 8bp overlap, with < 100 mismatches and >= 75% identity in overlapping region" | \
-    hts_QWindowTrim    --append-stats-file 07-HTStream/genomeStats.log \
+    hts_QWindowTrim    --append-stats-file 06-HTStream/genomeStats.log \
                        --notes "remove low quality bases from ends of reads. minimum window quality 20" | \
-    hts_NTrimmer       --append-stats-file 07-HTStream/genomeStats.log \
+    hts_NTrimmer       --append-stats-file 06-HTStream/genomeStats.log \
                        --notes "return longest subsequence containing no Ns" | \
-    hts_LengthFilter   --append-stats-file 07-HTStream/genomeStats.log \
+    hts_LengthFilter   --append-stats-file 06-HTStream/genomeStats.log \
                        --notes "remove all reads < 200bp, and all orphaned reads" \
                        --min-length 200 \
                        --no-orphans | \
-    hts_Stats          --append-stats-file 07-HTStream/genomeStats.log \
+    hts_Stats          --append-stats-file 06-HTStream/genomeStats.log \
                        --notes "final statistics" \
-                       --fastq-output 07-HTStream/illumina.htstream
+                       --fastq-output 06-HTStream/illumina.htstream
 
 #### Align reads to assembly
 
 The preprocessed reads can now be aligned to the assembly. We will use [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2), a very fast aligner, followed by samtools to reformat, sort, and index the reads, and collect alignment statistics.
 
-    mkdir 08-pilon
-    bwa-mem2 index 06-arrow/bacillus.arrowcorrected.fasta
-    bwa-mem2 mem 06-arrow/bacillus.arrowcorrected.fasta 07-HTStream/illumina.htstream_SE.fastq.gz | \
-    samtools view -bS | samtools sort > 08-pilon/bacillus.arrowcorrected.SE.bam
-    bwa mem 06-arrow/bacillus.arrowcorrected.fasta 07-HTStream/illumina.htstream_R1.fastq.gz 07-HTStream/illumina.htstream_R2.fastq.gz | \
-    samtools view -bS | samtools sort > 08-pilon/bacillus.arrowcorrected.PE.bam
-    samtools flagstat 08-pilon/bacillus.arrowcorrected.SE.bam -O tsv > 08-pilon/samFlags_SE.tsv
-    samtools flagstat 08-pilon/bacillus.arrowcorrected.PE.bam -O tsv > 08-pilon/samFlags_PE.tsv
-    samtools index 08-pilon/bacillus.arrowcorrected.SE.bam
-    samtools index 08-pilon/bacillus.arrowcorrected.PE.bam
+    mkdir 07-Pilon
+    bwa-mem2 index 05-GenomicConsensus/bacillus.arrowcorrected.fasta
+    bwa-mem2 mem 05-GenomicConsensus/bacillus.arrowcorrected.fasta 06-HTStream/illumina.htstream_SE.fastq.gz | \
+    samtools view -bS | samtools sort > 07-Pilon/bacillus.arrowcorrected.SE.bam
+    bwa mem 05-GenomicConsensus/bacillus.arrowcorrected.fasta 06-HTStream/illumina.htstream_R1.fastq.gz 06-HTStream/illumina.htstream_R2.fastq.gz | \
+    samtools view -bS | samtools sort > 07-Pilon/bacillus.arrowcorrected.PE.bam
+    samtools flagstat 07-Pilon/bacillus.arrowcorrected.SE.bam -O tsv > 07-Pilon/samFlags_SE.tsv
+    samtools flagstat 07-Pilon/bacillus.arrowcorrected.PE.bam -O tsv > 07-Pilon/samFlags_PE.tsv
+    samtools index 07-Pilon/bacillus.arrowcorrected.SE.bam
+    samtools index 07-Pilon/bacillus.arrowcorrected.PE.bam
 
 #### Polish assembly using short read data
 
 [Pilon](https://github.com/broadinstitute/pilon/wiki) is a tool from the Broad Institute designed to identify small and large indels, block substitutions, local misassemblies, and single-base differences between the input genome and the provided reads.
 
-    pilon --genome 06-arrow/bacillus.arrowcorrected.fasta \
-          --frags 08-pilon/bacillus.arrowcorrected.PE.bam \
-          --unpaired 08-pilon/bacillus.arrowcorrected.SE.bam \
-          --output 08-pilon/bacillus.pilon \
+    pilon --genome 05-GenomicConsensus/bacillus.arrowcorrected.fasta \
+          --frags 07-Pilon/bacillus.arrowcorrected.PE.bam \
+          --unpaired 07-Pilon/bacillus.arrowcorrected.SE.bam \
+          --output 07-Pilon/bacillus.pilon \
           --changes \
           --vcfqe \
           --tracks
@@ -190,7 +190,7 @@ The preprocessed reads can now be aligned to the assembly. We will use [bwa-mem2
 2. Verify genome strand using blast
 3. Search for chromosomal replication initiator protein DnaA
 
-    samtools faidx 08-pilon/bacillus.pilon.fasta --reverse-complement contig:10037-end --output 08-pilon/bacillus.pilon.trimmed.rc.fasta
+    samtools faidx 07-Pilon/bacillus.pilon.fasta --reverse-complement contig:10037-end --output 07-Pilon/bacillus.pilon.trimmed.rc.fasta
 
 *in bash shell*
 
