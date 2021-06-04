@@ -23,10 +23,16 @@ The computing resources required by PGAP is a machine has 8 CPUs and minimum 2GB
 
 *For those who have chosen to use an AWS instance that is Ubuntu platform, after installing docker following the instruction on the [docker website](https://docs.docker.com/engine/install/ubuntu/), please execute the following commands so that the docker engine is avaible for PGAP scripts.*
 
-    *sudo groupadd docker*
-    *sudo usermod -aG docker ${USER}*
+    sudo groupadd docker
+    sudo usermod -aG docker ${USER}
 
 *Then please logout of the AWS instance and re-login to have the group membership re-evaluated.*
+
+In order to check whether docker is available, please execute the following command:
+
+    docker run hello-world
+
+If this command has executed successfully, you should see a message stating that the "installation appears to be working correctly".
 
 Once the above two components are properly installed, one could follow the instructions below to obtain PGAP, as well as the most up-to-date databases.
 
@@ -39,26 +45,11 @@ The input to PGAP is the final assembled genome fasta file. One could download t
 
 For those who have Windowns machines, the file could be found [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/). Please right click on the file *baccanu.contigs.fasta* and save it to your working directory.
 
+There are two YAML files (*input.yaml* and *submol.yaml*) that are required by PGAP for metadata and pipeline parameters. You can download them [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_inputs/) the same way as you have downloaded the fasta file above.
 
-The _Bacillus thuringiensis_ RZ2MS9 is a plant growth-promoting bacteria, so it harbors several genes related with plant growth-promoting traits, such as the production of indole acetic acid, solubilization of phosphate, and more.
+Now we are ready to run PGAP. The following command will run the full PGAP pipeline.
 
-![Article](../fig_bact_tax/Batista_2018.png)
+    ./pgap.py -r -o baccanu_anno ./input.yaml
 
-Read the paper: [Batista et al. 2018](../https://www.sciencedirect.com/science/article/pii/S0944501317309229).
 
-## Contacts
 
-## Computing needs
-
-The quantity of data and the amount of processing needed should be sufficient on most laptop systems; however, many of the application used in the workshop requires the ability to compile code on a command line. As such we expect you to have these tools available on your system in order to fully participate.
-
-### The applications that need to be first installed are:
-
-    1. [samtools](http://www.htslib.org/)
-
-     
-## Workshop Materials
-
-* This Bacterial Genome Assembly Workshop
-
-   [https://ucdavis-bioinformatics-training.github.io/2021-ASM-genome-assembly/](https://ucdavis-bioinformatics-training.github.io/2021-ASM-genome-assembly/)
