@@ -1,5 +1,5 @@
 # Bacterial Taxonomy with Whole-genome Data
-Dr. Maria Bonatelli; Univ. of São Paulo, Piracicaba, Brazil.
+_Dr. Maria Bonatelli, University of São Paulo, Piracicaba, Brazil._
 
 ## Introduction to Bacterial Taxonomy
 
