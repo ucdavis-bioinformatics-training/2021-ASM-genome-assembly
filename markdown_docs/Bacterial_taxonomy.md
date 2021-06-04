@@ -143,10 +143,10 @@ The result will be outputted in the same format, but with several lines, each li
 #### GTDB-tk
 [The Department of Energy Systems Biology Knowledgebase (KBase)]( https://www.kbase.us) provides in their catalog the [Genome Taxonomy Database (GTDB)](https://github.com/Ecogenomics/GTDBTk) that assigns objective taxonomic classifications to bacterial genomes.
 
-![Figure from GTDB-tk](fig_bact_tax/GTDB-tk.png)
+![Figure from GTDB-tk](../fig_bact_tax/GTDB-tk.png)
 
 #### MiGA
 The Microbial Genomes Atlas Online (MiGA) is a webserver that allows the classification of a query sequence and that provides different tools to bacterial taxonomy and genome quality.
 
-![Figure from MiGA](fig_bact_tax/MiGA.png)
+![Figure from MiGA](../fig_bact_tax/MiGA.png)
 
