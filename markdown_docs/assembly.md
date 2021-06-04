@@ -109,7 +109,7 @@ The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/lates
 
 Two contigs are produced. This visualization of the assembly was created in [Bandage](https://rrwick.github.io/Bandage/).
 
-<img src="assembly_figures/bandage_entire_graph.svg" alt="Canu assembly of CCS reads viewed in Bandage" width="80%"/>
+<img src="assembly_figures/bandage_entire_graph.svg" alt="Canu assembly of CCS reads viewed in Bandage" width="50%"/>
 ### Polish the assembly using PacBio reads
 
 PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus) package includes tools for variant calling and polishing. Here we use the arrow algorithm, version 2.3.3. GenomicConsensus's variantCaller tool uses a file of file names ([FOFN](https://pb-falcon.readthedocs.io/en/latest/tutorial.html#create-fofn)), which is simply a text file containing the path to each read file. Before running variantCaller, we need to align the PacBio reads to the assembly and index the assembly FASTA file.
