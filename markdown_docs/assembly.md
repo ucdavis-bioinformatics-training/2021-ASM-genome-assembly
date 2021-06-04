@@ -228,6 +228,7 @@ The N50 of an assembly is the length of the shortest contig in 50% of the total 
 
 In a perfectly assembled single chromosome genome, the N50 and the size of the assembled genome will be identical. In a highly fragmented assembly, the N50 may be very small, as many small contigs will need to be included to reach 50% of the genome size.
 
+![Graphical example of N50](N50_example.pdf)
 
 #### L50
 
