@@ -95,7 +95,7 @@ The reads generated from the two PacBio runs are consenusus long reads (CLR). Ho
 
 ### Assemble the genome
 
-The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/latest/index.html) takes FASTA formatted reads as input, so we will need to convert our BAM formatted CCS reads to FASTA using samtools.
+The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/latest/index.html) takes FASTA formatted reads as input, so we will need to convert our BAM formatted CCS reads to FASTA using samtools. The Canu pipeline consists of three tasks: read correction, read trimming, and unitig construction. Because CCS reads are already corrected, we will only run the final assembly step of the pipeline, using the "hifi" flag to let Canu know that we are providing corrected reads. This is referred to as "HiCanu."
 
     samtools fastq 03-CCS/isi_run_01.ccs.bam > 03-CCS/isi_run_01.ccs.fq
     samtools fastq 03-CCS/isi_run_02.ccs.bam > 03-CCS/isi_run_02.ccs.fq
@@ -105,11 +105,18 @@ The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/lates
          -p bacillus \
          -d 04-HiCanu \
          genomeSize=5.5m \
-         -pacbio-corrected 03-CCS/isi_run_01.ccs.fq 03-CCS/isi_run_02.ccs.fq
+         -pacbio-hifi 03-CCS/isi_run_0?.ccs.fq
 
-Two contigs are produced. This visualization of the assembly was created in [Bandage](https://rrwick.github.io/Bandage/).
+The HiCanu assembly produces a single contig of 5364948 bp in length. We will take a closer look at it in later steps.
 
-<img src="assembly_figures/bandage_entire_graph.svg" alt="Canu assembly of CCS reads viewed in Bandage" width="50%"/>
+If there are not sufficient reads to assemble after converting to CCS, we can assemble the CLR reads instead. In this case, we run the entire Canu pipeline, rather than the assembly step by itself.
+
+    samtools fastq 00-RawData/isi_run_01/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam > clr_assembly/isi_run_01.clr.fq
+    samtools fastq 00-RawData/isi_run_02/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam > clr_assembly/isi_run_02.clr.fq
+    canu useGrid=False -p bacillus.clr -d clr_assembly genomeSize=5.5m -pacbio clr_assembly/isi_run_0?.clr.fq
+
+The CLR assembly is composed of 4 contigs, ranging in length from 16328 bp to 5367862 bp.
+
 ### Polish the assembly using PacBio reads
 
 PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus) package includes tools for variant calling and polishing. Here we use the arrow algorithm, version 2.3.3. GenomicConsensus's variantCaller tool uses a file of file names ([FOFN](https://pb-falcon.readthedocs.io/en/latest/tutorial.html#create-fofn)), which is simply a text file containing the path to each read file. Before running variantCaller, we need to align the PacBio reads to the assembly and index the assembly FASTA file.
