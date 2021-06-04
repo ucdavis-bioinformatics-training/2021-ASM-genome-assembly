@@ -12,7 +12,7 @@ We will be working with two PacBio sequencing runs from a *Bacillus* species. Be
 
 #### How many reads are there?
 
-The `bam stats` tool from [bamutil](https://github.com/statgen/bamUtil/releases/tag/v1.0.14) allows us to quickly count the reads in each run.
+The bam stats tool from [bamutil](https://github.com/statgen/bamUtil/releases/tag/v1.0.14) allows us to quickly count the reads in each run.
 
     mkdir 01-bamStats
     bam stats --in 00-RawData/isi_run_01/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam \
@@ -75,7 +75,7 @@ The ZMW counts CSV files can be imported into R for summary statistics and visua
     Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
     1.000   2.000   6.000   7.806  11.000 183.000
 
-![Histogram of ZMW counts generated in R](./zmw_hist.pdf)
+![Histogram of ZMW counts generated in R](assembly_figures/zmw_hist.pdf)
 
 While the second run has approximately twice as many ZMW as the first, the distribution of ZMW counts is similar between the two runs.
 
@@ -107,11 +107,12 @@ The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/lates
 
 Two contigs are produced. This visualization of the assembly was created in [Bandage](https://rrwick.github.io/Bandage/).
 
-![Canu assembly of CCS reads viewed in Bandage](./bandage_entire_graph.svg)
+![Canu assembly of CCS reads viewed in Bandage](assembly_figures/bandage_entire_graph.svg)
 
 ### Polish the assembly using PacBio reads
 
 PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus) package includes tools for variant calling and polishing. Here we use the arrow algorithm, version 2.3.3. GenomicConsensus's variantCaller tool uses a file of file names ([FOFN](https://pb-falcon.readthedocs.io/en/latest/tutorial.html#create-fofn)), which is simply a text file containing the path to each read file. Before running variantCaller, we need to align the PacBio reads to the assembly and index the assembly FASTA file.
+
 
     mkdir 06-arrow
     ls 00-RawData/isi_run_0*/*.bam > raw.fofn
@@ -228,12 +229,13 @@ The N50 of an assembly is the length of the shortest contig in 50% of the total 
 
 In a perfectly assembled single chromosome genome, the N50 and the size of the assembled genome will be identical. In a highly fragmented assembly, the N50 may be very small, as many small contigs will need to be included to reach 50% of the genome size.
 
-![Graphical example of N50](N50_example.pdf)
+![Graphical example of N50](assembly_figures/N50_example.pdf)
 
 #### L50
 
 The L50 is the smallest number of contigs whose length total at least 50% of the genome size. This is the number of contigs used in the N50. A lower number represents higher contiguity.
 
+![Graphical example of L50](assembly_figures/L50_example.pdf)
 
 ### Completeness and correctness
 
