@@ -15,12 +15,14 @@ This bacterium was isolated from the rizosphere of guarana plants (_Paullinia cu
 
 <p align="center">
 <img src="fig_bact_tax/Guarana.jpg" alt="Guarana_Plants" width="30%" img align="center"/>
-</p>
+</p>r
   
 The _Bacillus thuringiensis_ RZ2MS9 is a plant growth-promoting bacteria, so it harbors several genes related with plant growth-promoting traits, such as the production of indole acetic acid, solubilization of phosphate, and more.
 
+<p align="center">
 <img src="fig_bact_tax/Batista_2018.png" alt="Batista_et_al_2018" width="80%"/>
-
+</p>
+  
 Read the paper: [Batista et al. 2018](https://www.sciencedirect.com/science/article/pii/S0944501317309229).
 
 ## Contacts
@@ -33,7 +35,10 @@ The quantity of data storage and the amount of processing needed should be suffi
 
 ### The applications that need to be first installed are:
 
-    1. [samtools](http://www.htslib.org/)
+    1. [Samtools](http://www.htslib.org/)
+    2. XXX
+    3. [Barrnap](https://github.com/tseemann/barrnap)
+    4. [FastANI](https://github.com/ParBLiSS/FastANI)
 
 ## Data Availability
 
