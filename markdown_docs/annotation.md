@@ -15,7 +15,7 @@ There are a few annotation pipelines designed for annotating bacterial genomes.
 ## PGAP
 Running PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP. 
 
-![PGAP](./annotation_figures/PGAP_flowchart.jpg)
+![PGAP](./annotation_figures/PGAP_flowchart.png)
 
 The _Bacillus thuringiensis_ RZ2MS9 is a plant growth-promoting bacteria, so it harbors several genes related with plant growth-promoting traits, such as the production of indole acetic acid, solubilization of phosphate, and more.
 
