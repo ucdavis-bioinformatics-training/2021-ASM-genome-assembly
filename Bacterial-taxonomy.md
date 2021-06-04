@@ -32,7 +32,7 @@ Such regions are target in phylogenetic studies, depending on the objective of t
 
 For our purpose here today, we want to recover from the genome the full length rRNA gene, that has ~ 1,500 bp. Typically, we will consider for species circumscription of two bacterial isolates if they have 98.7% of rRNA 16S gene identity.
 
->Tip: If you have a new bacterial isolate that you want to identify it using 16S rRNA gene, you should use primers that target different regions of the gene to get the full-length 16S rRNA gene. In this publication of (Thompson et al. 2001)[ https://www.sciencedirect.com/science/article/pii/S0723202004700673] you can find a set of primers to that end.
+>Tip: If you have a new bacterial isolate that you want to identify it using 16S rRNA gene, you should use primers that target different regions of the gene to get the full-length 16S rRNA gene. In this publication of Thompson et al. 2001 (https://doi.org/10.1078/0723-2020-00067) you can find sets of primers to that end.
 
 ### Using Barrnap to recover 16S rRNA gene from your genome sequence
 You have a high-quality complete genome, and you want to find all ribosomal RNA gene. To that, you can use [Barrnap](https://github.com/tseemann/barrnap).
@@ -41,11 +41,11 @@ You have a high-quality complete genome, and you want to find all ribosomal RNA 
 >
 >It takes FASTA DNA sequence as input, and write GFF3 as output. It uses the new ‘nhmmer’ tool that comes with HMMER 3.1 for HMM searching in RNA:DNA style.
 
-To use Barrnap, you can install it via Conda or Homebrew/Linuxbrew, depending on your operational system. If you are working in a cluster, you can look for ‘prokka’ software that also runs barrnap. For more information about prokka, a cool software that performs whole genome annotation, [see here]( https://github.com/tseemann/prokka).
+To use Barrnap, you can install it via Conda or Homebrew/Linuxbrew, depending on your operational system. If you are working in a cluster, you can look for ‘prokka’ software that also runs Barrnap. For more information about prokka, a cool software that performs whole genome annotation, [see here]( https://github.com/tseemann/prokka).
 
 Once you have Barrnap ready to run, you will only need your genome in .fasta file. In this example, I am using Barrnap v. 0.9:
 
-`barrnap --help`
+`barrnap -help`
 
 ![barrnap_Help](fig_bact_tax/Figures_barrnap1.png)
 
@@ -74,7 +74,7 @@ Once you have one or more 16S rRNA genes from your genome, you can use different
 >**SINA Search and Classify**
 >Enabling "Search and classify" will force SINA to additionally classify your sequences with the least common ancestor (LCA) method based on the taxonomies hosted by SILVA.
 
-3.	Blastn of [National Center for Biotechnology Information (NCBI)](https://blast.ncbi.nlm.nih.gov/Blast.cgi).
+3.	Blastn from [National Center for Biotechnology Information (NCBI)](https://blast.ncbi.nlm.nih.gov/Blast.cgi).
 
 ## Average Nucleotide Identity (ANI)
 
@@ -98,25 +98,15 @@ First, we will need to install FastANI in our computer or server:
 
 `git clone https://github.com/ParBLiSS/FastANI.git`
 
-Then, we will follow the instructions on the **INSTALL.txt** file:
-
-`cat INSTALL.txt`
-
-![Figure from output cat INSTALL.txt](fig_bact_tax/FastANI_Install.png)
-
-`./bootstrap.sh`
-
-`./configure --prefix=</path/to/install> --with-gsl=</path/to/gsl/> OR --with-boost==</path/to/boost/>`
-
-`make`
-
-Alternatively, you can install FastANI via [conda](https://anaconda.org/bioconda/fastani).
+Then, we will follow the instructions on the **INSTALL.txt** file. Alternatively, you can install FastANI via [conda](https://anaconda.org/bioconda/fastani).
 
 Now, FastANI is installed and ready to be used. You can manually look for bacterial isolates that are close to your genome on different databases, and you can use the previously recovered 16S rRNA gene of your genome to help you on this task. For example, if you use [Blastn]( https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) with megablast, you will see the following result:
 
 ![Figure from megablast](fig_bact_tax/Blast2.png)
 
 Alternatively, you can download all the genomes close to your bacterial isolate with [datasets](https://www.ncbi.nlm.nih.gov/datasets/docs/command-line-start) from NCBI. Datasets is a command-line tool that is used to query and download biological sequence data from NCBI.
+
+`datasets download -h`
 
 ![Figure from dataset](fig_bact_tax/datasets.png)
 
