@@ -3,7 +3,6 @@
 Annotating a bacterial genome involves two major steps: structural annotation and functional annotation. Structural annotation is to identify all relevant genomic sequences for protein coding genes, structural RNA genes, as well as other types of genomic features. The predicted protein coding gene sequences will be used for functional annotation to predict the functions of the proteins, and/or relationship to known pathways.
 
 ![Pipeline](./annotation_figures/annopipeline.png)
-![Pipeline2](./annotation_figures/Picture1.png)
 
 
 There are a few annotation pipelines designed for annotating bacterial genomes.
@@ -16,7 +15,7 @@ There are a few annotation pipelines designed for annotating bacterial genomes.
 ## Introduction to PGAP
 Running PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher, and minimum 80GB disk space). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP. 
 
-![PGAP](./annotation_figures/PGAP_flowchart.png)
+![Pipeline2](./annotation_figures/PGAP_flowchart.png)
 
 
 ## Running PGAP
