@@ -3,6 +3,7 @@
 Annotating a bacterial genome involves two major steps: structural annotation and functional annotation. Structural annotation is to identify all relevant genomic sequences for protein coding genes, structural RNA genes, as well as other types of genomic features. The predicted protein coding gene sequences will be used for functional annotation to predict the functions of the proteins, and/or relationship to known pathways.
 
 ![Pipeline](./annotation_figures/annopipeline.png)
+![Pipeline](./annotation_figures/Picture1.png)
 
 
 There are a few annotation pipelines designed for annotating bacterial genomes.
