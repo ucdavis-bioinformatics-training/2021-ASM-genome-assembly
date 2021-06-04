@@ -5,13 +5,15 @@ google_analytics: True
 navigation:
   - title: Home
     url: /
+  - title: Welcome
+    url: /markdown_docs/welcome
   - title: Technology, Data, and Experimental Design
-    url: technology
+    url: /markdown_docs/pacbio
   - title: Assembly, Assembly Metrics, and Quality Control
-    url: assembly
+    url: /markdown_docs/assembly
   - title: Annotation
-    url: annotation
+    url: /markdown_docs/annotation
   - title: Typing and Comparative Analyses
-    url: typing
+    url: /markdown_docs/typing
   - title: Support
     url: support
