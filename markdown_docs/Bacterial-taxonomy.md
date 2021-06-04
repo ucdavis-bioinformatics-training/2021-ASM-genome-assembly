@@ -15,6 +15,7 @@ Definition of [Cowan et al. 1964](https://www.microbiologyresearch.org/content/j
 >
 >(3) Identification of unknown units with known units of the classification developed in (1) and bearing names given in (2).
 
+
 In the beginning, phenotypic characteristics were used to classify and identify bacteria (e.g., morphological and physiological). Now, we use a polyphasic taxonomy that integrates phenotypic, genotypic, and phylogenetic data to that end.
 
 ## 16S rRNA gene
@@ -34,6 +35,7 @@ For our purpose here today, we want to recover from the genome the full length r
 
 >Tip: If you have a new bacterial isolate that you want to identify it using 16S rRNA gene, you should use primers that target different regions of the gene to get the full-length 16S rRNA gene. In this publication of Thompson et al. 2001 (https://doi.org/10.1078/0723-2020-00067) you can find sets of primers to that end.
 
+
 ### Using Barrnap to recover 16S rRNA gene from your genome sequence
 You have a high-quality complete genome, and you want to find all ribosomal RNA gene. To that, you can use [Barrnap](https://github.com/tseemann/barrnap).
 
@@ -41,9 +43,10 @@ You have a high-quality complete genome, and you want to find all ribosomal RNA 
 >
 >It takes FASTA DNA sequence as input, and write GFF3 as output. It uses the new ‘nhmmer’ tool that comes with HMMER 3.1 for HMM searching in RNA:DNA style.
 
+
 To use Barrnap, you can install it via Conda or Homebrew/Linuxbrew, depending on your operational system. If you are working in a cluster, you can look for ‘prokka’ software that also runs Barrnap. For more information about prokka, a cool software that performs whole genome annotation, [see here]( https://github.com/tseemann/prokka).
 
-Once you have Barrnap ready to run, you will only need your genome in .fasta file. In this example, I am using Barrnap v. 0.9:
+Once you have Barrnap ready to run, you will only need your genome in _.fasta_ file. In this example, I am using Barrnap v. 0.9:
 
     barrnap -help
 
@@ -68,12 +71,6 @@ Once you have one or more 16S rRNA genes from your genome, you can use different
 
 2.	Silva rRNA database project [ACT: Alignment, Classification and Tree Service](https://www.arb-silva.de/aligner/).
 
->**SINA Aligner**
->SINA (v1.2.11) will align your rRNA gene sequences accoding to the global SILVA alignment for rRNA genes. The results can be combined with any other sequences aligned by SINA or taken from the SILVA databases by concatenation of FASTA files or using the ARB MERGE tool.
->
->**SINA Search and Classify**
->Enabling "Search and classify" will force SINA to additionally classify your sequences with the least common ancestor (LCA) method based on the taxonomies hosted by SILVA.
-
 3.	Blastn from [National Center for Biotechnology Information (NCBI)](https://blast.ncbi.nlm.nih.gov/Blast.cgi).
 
 ## Average Nucleotide Identity (ANI)
@@ -92,13 +89,13 @@ Interestingly, there are several variations of the original ANI calculation algo
 
 ### FastANI
 
-Today, we will use [FastANI](https://github.com/ParBLiSS/FastANI) to identify our bacterial whole-genome. FastANI is an alignment-free computation of whole-genome ANI. This is a fast, yet reliable tool to perform bacterial identification against one particular isolate or a database.
+Today, you will use [FastANI](https://github.com/ParBLiSS/FastANI) to identify our bacterial whole-genome. FastANI is an alignment-free computation of whole-genome ANI. This is a fast, yet reliable tool to perform bacterial identification against one particular isolate or a database.
 
-First, we will need to install FastANI in our computer or server:
+First, you will need to install FastANI in our computer or server:
 
     git clone https://github.com/ParBLiSS/FastANI.git
 
-Then, we will follow the instructions on the **INSTALL.txt** file. Alternatively, you can install FastANI via [conda](https://anaconda.org/bioconda/fastani).
+Then, you will follow the instructions on the **INSTALL.txt** file. Alternatively, you can install FastANI via [conda](https://anaconda.org/bioconda/fastani).
 
 Now, FastANI is installed and ready to be used. You can manually look for bacterial isolates that are close to your genome on different databases, and you can use the previously recovered 16S rRNA gene of your genome to help you on this task. For example, if you use [Blastn]( https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) with megablast, you will see the following result:
 
@@ -110,9 +107,9 @@ Alternatively, you can download all the genomes close to your bacterial isolate 
 
 <img src="fig_bact_tax/datasets.png" alt="Datasets NCBI" width="80%"/>
 
-In our example, we downloaded all complete genomes of _Bacillus cereus_ group that were available at NCBI using their accession number. You can find the list [here](fig_bact_tax/accessions.txt).
+In this example, I downloaded all complete genomes from _Bacillus cereus_ group that were available at NCBI using their accession number. You can find the list [here](fig_bact_tax/accessions.txt).
 
-First, we will compare our genome with a reference genome:
+In this first example, you will compare the _Bacillus_ genome with a reference genome:
 
     ./fastANI -q /path/to/bacillus.fasta -r /path/to/reference_genome.fasta -o /path/to/fastani_results.out
 
@@ -122,13 +119,13 @@ Results:
 
 **/path/to/bacillus.fasta /path/to/reference_genome.fasta 96.2886 1595	1785**
 
-The previous result shows that ANI estimate between bacillus.fasta and reference_genome.fasta is 96.2886. Out of the total 1785 sequence fragments from _Bacillus_ genome, 1595 were aligned as orthologous matches.
+The previous result shows that ANI estimate between _bacillus.fasta_ and _reference_genome.fasta_ is 96.2886. Out of the total 1785 sequence fragments from _Bacillus_ genome, 1595 were aligned as orthologous matches.
 
-Now, we will compare our genome with multiple reference genomes:
+Now, you will compare the _Bacillus_ genome with multiple reference genomes:
 
     ./fastANI -q /path/to/bacillus.fasta --rl /path/to/reference_list.txt -o /path/to/fastani_results_multiple.out
 
-The result will be outputted in the same format, but with several lines, each line being a comparison between our genome and a reference genome.
+The result will be outputted in the same format, but with several lines, each line being a comparison between the _Bacillus_ genome and a reference genome.
 
     head -n3 fastani_results_multiple.out
 
