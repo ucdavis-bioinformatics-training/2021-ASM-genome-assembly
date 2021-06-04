@@ -45,7 +45,7 @@ The input to PGAP is the final assembled genome fasta file. One could download t
 
 For those who have Windowns machines, the file could be found [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/). Please right click on the file *baccanu.contigs.fasta* and save it to your working directory.
 
-There are two YAML files: [input.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/mardown_docs/annotation_figures/input.yaml) and [submol.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/mardown_docs/annotation_figures/submol.yaml)) that are required by PGAP for metadata and pipeline parameters. You can download them [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_inputs/) the same way as you have downloaded the fasta file above.
+There are two YAML files: [input.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/markdown_docs/annotation_figures/input.yaml) and [submol.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/markdown_docs/annotation_figures/submol.yaml) that are required by PGAP for metadata and pipeline parameters. You can download them [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_inputs/) the same way as you have downloaded the fasta file above.
 
 Now we are ready to run PGAP. The following command will run the full PGAP pipeline.
 
