@@ -12,10 +12,26 @@ There are a few annotation pipelines designed for annotating bacterial genomes.
 3. RAST [Rapid Annotations using Subsystem Technology](https://rast.nmpdr.org/)
 4. DRAM [Distilled and Refined Annotation of Metabolism](https://github.com/shafferm/DRAM)
 
-## PGAP
+## Introduction to PGAP
 Running PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP. 
 
 ![PGAP](./annotation_figures/PGAP_flowchart.png)
+
+
+## Running PGAP
+The computing resources required by PGAP is a machine has 8 CPUs and minimum 2GB memory per CPU. Though I have successfully run PGAP on a laptop that has 4 Cores and 32GB memory. So, the number of CPUs could be lower than 8, but the memory per CPU should be sufficient. Otherwise, one important step in the pipeline (blastp) will fail. PGAP can be run quite easily using docker. The first step in setting up the environment for running PGAP is to install docker on your laptop, or on an AWS instance. Simply download the proper version of [docker](https://docs.docker.com/get-docker/). The second package required for PGAP is python3.6 or higher. This could be easily installed by installing [Anaconda](https://www.anaconda.com/products/individual#Downloads) on your machine.
+
+Once the above two components are properly installed, one could follow the instructions below to obtain PGAP, as well as the most up-to-date databases.
+
+    curl -OL https://github.com/ncbi/pgap/raw/prod/scripts/pgap.py
+    ./pgap.py --update
+
+The input to PGAP is the final assembled genome fasta file. One could download the file using the following command ** if the previous assembly step has not finished **.
+
+    wget https://bioshare.bioinformatics.ucdavis.edu/bioshare/download/ua4gjm2jyj12oxl/baccanu.contigs.fasta
+
+For those who have Windowns machines, the file could be found [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/). Please right click on the file *baccanu.contigs.fasta* and save it to your working directory.
+
 
 The _Bacillus thuringiensis_ RZ2MS9 is a plant growth-promoting bacteria, so it harbors several genes related with plant growth-promoting traits, such as the production of indole acetic acid, solubilization of phosphate, and more.
 
