@@ -4,7 +4,7 @@
 
 ## Assembling a bacterial genome with PacBio sequence data
 
-The data and pipeline in this tutorial are adapted from [**Complete Genome Sequence of *Bacillus* sp. Strain Rz2MS9, a Multitrait Plant Growth Promoter**](https://journals.asm.org/doi/full/10.1128/MRA.00623-20).
+The data and pipeline in this tutorial are adapted from [**Complete Genome Sequence of *Bacillus* sp. Strain Rz2MS9, a Multitrait Plant Growth Promoter**](https://journals.asm.org/doi/full/10.1128/MRA.00623-20 When referring to this pipeline, please cite the publication.
 
 ### Explore the sequence data
 
@@ -35,6 +35,7 @@ First, we will need to count the occurrence of each ZMW. Using [samtools/1.9](ht
 7. Remove excess whitespace
 8. Reorder columns, separating them with a comma
 9. Append output to the CSV
+
 
     mkdir 03-zmwCounts
     echo "zmw,counts" > 03-zmwCounts/isi_run_01.csv
