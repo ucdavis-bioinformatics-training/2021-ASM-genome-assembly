@@ -1,7 +1,11 @@
 # Annotating Bacterial Genomes, with a focus on PGAP
 
 ## Assess the completeness of the assembled genome
-The quality of the assembled genome directly affects the quality of the annotation process. Therefore, we are going to assess the completeness of the assembly using BUSCO. The detailed tutorial could be found [here](https://ucdavis-bioinformatics-training.github.io/2020-Genome_Assembly_Workshop/busco/busco). The BUSCO result for our assembly is very good. The major factors to look for in a BUSCO assessment include: the completeness percentage and the duplication rate. We would like to see as high as possible for the completeness percentage and as low as possible for the duplication rate.
+The quality of the assembled genome directly affects the quality of the annotation process. Therefore, we are going to assess the completeness of the assembly using BUSCO. The detailed tutorial could be found [here](https://ucdavis-bioinformatics-training.github.io/2020-Genome_Assembly_Workshop/busco/busco). Setting up the configuration file for running BUSCO requires the knowledge of the species that the assembly is for and the domain of species that the assembly should be checked against. Running busco under command line interface is by executing the following command:
+
+    busco -i input.fasta -o outputdir
+
+The major factors to look for in a BUSCO assessment include: the completeness percentage and the duplication rate. We would like to see as high as possible for the completeness percentage and as low as possible for the duplication rate. The BUSCO result for our assembly is very good.
 
 ![busco](./annotation_figures/busco.png)
 
