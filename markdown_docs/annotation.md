@@ -1,5 +1,12 @@
 # Annotating Bacterial Genomes, with a focus on PGAP
 
+## Assess the completeness of the assembled genome
+The quality of the assembled genome directly affects the quality of the annotation process. Therefore, we are going to assess the completeness of the assembly using BUSCO. The detailed tutorial could be found [here](https://ucdavis-bioinformatics-training.github.io/2020-Genome_Assembly_Workshop/busco/busco). The BUSCO result for our assembly is very good. The major factors to look for in a BUSCO assessment include: the completeness percentage and the duplication rate. We would like to see as high as possible for the completeness percentage and as low as possible for the duplication rate.
+
+![busco](./annotation_figures/busco.png)
+
+
+## Introduction to annotation pipelines
 Annotating a bacterial genome involves two major steps: structural annotation and functional annotation. Structural annotation is to identify all relevant genomic sequences for protein coding genes, structural RNA genes, as well as other types of genomic features. The predicted protein coding gene sequences will be used for functional annotation to predict the functions of the proteins, and/or relationship to known pathways.
 
 ![Pipeline](./annotation_figures/annopipeline.png)
@@ -45,7 +52,7 @@ The input to PGAP is the final assembled genome fasta file. One could download t
 
 For those who have Windowns machines, the file could be found [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/). Please right click on the file *baccanu.contigs.fasta* and save it to your working directory.
 
-There are two YAML files: [input.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/markdown_docs/annotation_figures/input.yaml) and [submol.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/markdown_docs/annotation_figures/submol.yaml) that are required by PGAP for metadata and pipeline parameters. You can download them [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_inputs/) the same way as you have downloaded the fasta file above.
+There are two YAML files: [input.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/markdown_docs/annotation_figures/input.yaml) and [submol.yaml](https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2021-ASM-genome-assembly/master/markdown_docs/annotation_figures/submol.yaml), that are required by PGAP for metadata and pipeline parameters. You can download them [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_inputs/) the same way as you have downloaded the fasta file above.
 
 Now we are ready to run PGAP. The following command will run the full PGAP pipeline.
 
