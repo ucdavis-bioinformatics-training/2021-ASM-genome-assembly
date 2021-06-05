@@ -119,19 +119,19 @@ The CLR assembly is composed of 4 contigs, ranging in length from 16328 bp to 53
 
 ### Polish the assembly using PacBio reads
 
-PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus) package includes tools for variant calling and polishing. Here we use the arrow algorithm, version 2.3.3. GenomicConsensus's variantCaller tool uses a file of file names ([FOFN](https://pb-falcon.readthedocs.io/en/latest/tutorial.html#create-fofn)), which is simply a text file containing the path to each read file. Before running variantCaller, we need to align the PacBio reads to the assembly and index the assembly FASTA file.
+PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus) package includes tools for variant calling and polishing. Here we use the arrow algorithm, version 2.3.3. GenomicConsensus's variantCaller tool uses a file of file names ([FOFN](https://pb-falcon.readthedocs.io/en/latest/tutorial.html#create-fofn)), which is simply a text file containing the path to each read file. Before running variantCaller, we need to create the FOFN, align the PacBio reads to the assembly, and index the assembly FASTA file.
 
 
     mkdir 05-GenomicConsensus
     ls 00-RawData/isi_run_0*/*.bam > raw.fofn
-    pbalign raw.fofn 04-HiCanu/bacillus.contigs.fasta 05-GenomicConsensus/raw_canu_align.bam
+    pbalign raw.fofn 04-HiCanu/bacillus.ccs.contigs.fasta 05-GenomicConsensus/raw_canu_align.bam
     samtools flagstat 05-GenomicConsensus/raw_canu_align.bam -O tsv > 05-GenomicConsensus/samFlags.tsv
-    samtools faidx 04-HiCanu/bacillus.contigs.fasta
+    samtools faidx 04-HiCanu/bacillus.ccs.contigs.fasta
     variantCaller 05-GenomicConsensus/raw_canu_align.bam \
                   --algorithm=arrow \
-                  -r 04-HiCanu/bacillus.contigs.fasta \
+                  -r 04-HiCanu/bacillus.ccs.contigs.fasta \
                   -o 05-GenomicConsensus/variants-raw.gff \
-                  -o 05-GenomicConsensus/bacillus.arrowcorrected.fasta
+                  -o 05-GenomicConsensus/bacillus.arrow.fasta
 
 ### Incorporate short read data
 
@@ -169,63 +169,57 @@ Before aligning the Illumina reads to the PacBio contigs, we will preprocess the
 The preprocessed reads can now be aligned to the assembly. We will use [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2), a very fast aligner, followed by samtools to reformat, sort, and index the reads, and collect alignment statistics.
 
     mkdir 07-Pilon
-    bwa-mem2 index 05-GenomicConsensus/bacillus.arrowcorrected.fasta
-    bwa-mem2 mem 05-GenomicConsensus/bacillus.arrowcorrected.fasta 06-HTStream/illumina.htstream_SE.fastq.gz | \
-    samtools view -bS | samtools sort > 07-Pilon/bacillus.arrowcorrected.SE.bam
-    bwa mem 05-GenomicConsensus/bacillus.arrowcorrected.fasta 06-HTStream/illumina.htstream_R1.fastq.gz 06-HTStream/illumina.htstream_R2.fastq.gz | \
-    samtools view -bS | samtools sort > 07-Pilon/bacillus.arrowcorrected.PE.bam
-    samtools flagstat 07-Pilon/bacillus.arrowcorrected.SE.bam -O tsv > 07-Pilon/samFlags_SE.tsv
-    samtools flagstat 07-Pilon/bacillus.arrowcorrected.PE.bam -O tsv > 07-Pilon/samFlags_PE.tsv
-    samtools index 07-Pilon/bacillus.arrowcorrected.SE.bam
-    samtools index 07-Pilon/bacillus.arrowcorrected.PE.bam
+    bwa-mem2 index 05-GenomicConsensus/bacillus.arrow.fasta
+    bwa-mem2 mem 05-GenomicConsensus/bacillus.arrow.fasta 06-HTStream/illumina.htstream_SE.fastq.gz | \
+    samtools view -bS | samtools sort > 07-Pilon/bacillus.arrow.SE.bam
+    bwa mem 05-GenomicConsensus/bacillus.arrow.fasta 06-HTStream/illumina.htstream_R1.fastq.gz 06-HTStream/illumina.htstream_R2.fastq.gz | \
+    samtools view -bS | samtools sort > 07-Pilon/bacillus.arrow.PE.bam
+    samtools flagstat 07-Pilon/bacillus.arrow.SE.bam -O tsv > 07-Pilon/samFlags_SE.tsv
+    samtools flagstat 07-Pilon/bacillus.arrow.PE.bam -O tsv > 07-Pilon/samFlags_PE.tsv
+    samtools index 07-Pilon/bacillus.arrow.SE.bam
+    samtools index 07-Pilon/bacillus.arrow.PE.bam
 
 #### Polish assembly using short read data
 
 [Pilon](https://github.com/broadinstitute/pilon/wiki) is a tool from the Broad Institute designed to identify small and large indels, block substitutions, local misassemblies, and single-base differences between the input genome and the provided reads.
 
-    pilon --genome 05-GenomicConsensus/bacillus.arrowcorrected.fasta \
-          --frags 07-Pilon/bacillus.arrowcorrected.PE.bam \
-          --unpaired 07-Pilon/bacillus.arrowcorrected.SE.bam \
+    pilon --genome 05-GenomicConsensus/bacillus.arrow.fasta \
+          --frags 07-Pilon/bacillus.arrow.PE.bam \
+          --unpaired 07-Pilon/bacillus.arrow.SE.bam \
           --output 07-Pilon/bacillus.pilon \
           --changes \
           --vcfqe \
           --tracks
 
-### Make final adjustments
+### Make final adjustments to assembly
 
-1. Look for overlap between beginning and end of genome
-2. Verify genome strand using blast
-3. Search for chromosomal replication initiator protein DnaA
+#### Look for overlap between beginning and end of genome
+
+Because the species we're assembling has a single circular chromosome, we may see overlap between the beginning and end of our genome sequence. Using samtools and BLAST on the command line, we can check the ends of our sequence to see if they overlap one another.
+
+    samtools faidx 07-Pilon/bacillus.pilon.fasta contig:0-overlap --output 07-Pilon/contig.0.overlap.fasta
+    samtools faidx 07-Pilon/bacillus.pilon.fasta contig:overlap-end --output 07-Pilon/contig.overlap.end.fasta
+    blastn --query 07-Pilon/contig.0.overlap.fasta --subject 07-Pilon/contig.overlap.end.fasta
+
+#### Verify strand orientation of assembly
+
+The orientation of the assembly should be consistent with other assemblies in related taxa.
+
+
+#### Set origin of replication
 
     samtools faidx 07-Pilon/bacillus.pilon.fasta --reverse-complement contig:10037-end --output 07-Pilon/bacillus.pilon.trimmed.rc.fasta
-
-*in bash shell*
-
-`bedtools getfasta -fi Final_Genome_trimmed_and_RC.fasta -bed position1.bed -fo Final_Genome_trimmed_and_RC_beg.fasta
-bedtools getfasta -fi Final_Genome_trimmed_and_RC.fasta -bed position2.bed -fo Final_Genome_trimmed_and_RC_end.fasta
-grep -v ">" Final_Genome_trimmed_and_RC_beg.fasta | wc | awk '{print $3-$1}'
-843381
-
-grep -v ">" Final_Genome_trimmed_and_RC_end.fasta | wc | awk '{print $3-$1}'
-4513813
-
-843381 + 4513813 = 5357194
-
-grep -v ">" Final_Genome_trimmed_and_RC.fasta | wc | awk '{print $3-$1}'
-5357194
-
-You can manually join them.
-
-grep -v ">" Final_Genome_trimmed_and_RC_total.fasta | wc | awk '{print $3-$1}'
-5357194`
 
 ## Assembly Metrics and Quality Control
 
 How well assembled is the genome? What are its characteristics? We can look at a few different metrics to get an idea of whether or not the assembly meets our expectations for the genome in terms of composition and contiguity, completeness, and correctness.
 
+We will use each metric on the polished CCS genome assembly as well as the CLR assembly.
+
 ### Composition
 
-To calculate the sequence composition of the genome,
+The two genomes are similar in length, and nearly identical in sequence.
+
 
 ### Contiguity
 
@@ -235,7 +229,7 @@ The size of an assembled genome tells us only how many base pairs of assembled s
 
 The N50 of an assembly is the length of the shortest contig in 50% of the total genome length. This calculated by ordering contigs from longest to shortest, summing lengths until reaching 50% of the total genome size, and reporting the length of the shortest contig used.
 
-In a perfectly assembled single chromosome genome, the N50 and the size of the assembled genome will be identical. In a highly fragmented assembly, the N50 may be very small, as many small contigs will need to be included to reach 50% of the genome size.
+In a perfectly assembled single chromosome genome, the N50 and the size of the assembled genome will be identical. In a highly fragmented assembly, the N50 may be very small, as many small contigs will need to be included to reach 50% of the genome size. Here is a graphical representation of a hypothetical assembly:
 
 ![Graphical example of N50](assembly_figures/N50_example.pdf)
 
@@ -245,6 +239,8 @@ The L50 is the smallest number of contigs whose length total at least 50% of the
 
 ![Graphical example of L50](assembly_figures/L50_example.pdf)
 
+Both of our assemblies are highly contiguous with an L50 of 1.
+
 ### Completeness and correctness
 
-The assembly size is very similar to the expected genome size.
+The assembly size is very similar to the expected genome size. The variantCaller and Pilon tools identified and corrected a small number of assembly errors. We can be reasonable confident that the genome is complete and does not contain any major errors.
