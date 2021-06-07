@@ -65,4 +65,4 @@ Now we are ready to run PGAP. The following command will run the full PGAP pipel
     ./pgap.py -r -o baccanu_anno ./input.yaml
 
 
-This simply command runs the full PGAP annotation pipeline, in a couple hours on an AWS instance with 8 CPUs and 32GB memory. The results are stored inside *baccanu_anno* [directory](annotation_figures/baccanu_anno). The file *annot.gbk* is the annotation result in genbank format. The file *annot.gff* is the annotation result in gff3 format.
+This simply command runs the full PGAP annotation pipeline, in a couple hours on an AWS instance with 8 CPUs and 32GB memory. The results are stored inside *baccanu_anno* [directory](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_outputs/). The file *annot.gbk* is the annotation result in genbank format. The file *annot.gff* is the annotation result in gff3 format.
