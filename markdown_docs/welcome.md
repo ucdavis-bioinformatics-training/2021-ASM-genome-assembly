@@ -10,19 +10,19 @@ This workshop aims to provide to the participants the basic knowledge from begin
 4. Bacterial Taxonomy with Whole-genome Data. Maria Bonatelli; Univ. of São Paulo, Piracicaba, Brazil
 
 ## The bacterium _Bacillus thuringiensis_ RZ2MS9
-Today, you will assemble the genome of a bacterium that was isolated from the Amazon rainforest, in the city of Maués, Amazonas state, Brazil. 
+Today, you will assemble the genome of a bacterium that was isolated from the Amazon rainforest, in the city of Maués, Amazonas state, Brazil.
 This bacterium was isolated from the rizosphere of guarana plants (_Paullinia cupana_).
 
 <p align="center">
 <img src="fig_bact_tax/Guarana.jpg" alt="Guarana_Plants" width="30%" img align="center"/>
 </p>r
-  
+
 The _Bacillus thuringiensis_ RZ2MS9 is a plant growth-promoting bacteria, so it harbors several genes related with plant growth-promoting traits, such as the production of indole acetic acid, solubilization of phosphate, and more.
 
 <p align="center">
 <img src="fig_bact_tax/Batista_2018.png" alt="Batista_et_al_2018" width="80%"/>
 </p>
-  
+
 Read the paper: [Batista et al. 2018](https://www.sciencedirect.com/science/article/pii/S0944501317309229).
 
 ## Contacts
@@ -36,9 +36,16 @@ The quantity of data storage and the amount of processing needed should be suffi
 ### The applications that need to be first installed are:
 
     1. [Samtools](http://www.htslib.org/)
-    2. XXX
-    3. [Barrnap](https://github.com/tseemann/barrnap)
-    4. [FastANI](https://github.com/ParBLiSS/FastANI)
+    2. [Bamutil](https://github.com/statgen/bamUtil/)
+    3. [ccs](https://github.com/PacificBiosciences/ccs/)
+    4. [Canu](https://canu.readthedocs.io/en/latest/index.html)
+    5. [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus)
+    6. [HTStream](https://s4hts.github.io/HTStream/)
+    7. [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2)
+    8. [Pilon](https://github.com/broadinstitute/pilon/wiki)
+    9. [BLAST](https://www.ncbi.nlm.nih.gov/books/NBK279690/)
+    10. [Barrnap](https://github.com/tseemann/barrnap)
+    11. [FastANI](https://github.com/ParBLiSS/FastANI)
 
 ## Data Availability
 

@@ -231,7 +231,7 @@ Once the sequence has been corrected, our genome assembly is nearly complete. Th
 
 #### Look for overlap between beginning and end of genome
 
-Because the species we're assembling has a single circular chromosome, we expect some overlap between the beginning and end of our genome sequence. Using samtools and BLAST on the command line, we can check the ends of our sequence to see if they overlap one another.
+Because the species we're assembling has a single circular chromosome, we expect some overlap between the beginning and end of our genome sequence. Using samtools and [BLAST](https://www.ncbi.nlm.nih.gov/books/NBK279690/) on the command line, we can check the ends of our sequence to see if they overlap one another.
 
     mkdir 08-Final
     sed 's/|arrow|pilon//' 07-Pilon/bacillus.pilon.fasta > 08-Final/pilon.complete.fasta
