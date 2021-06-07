@@ -271,10 +271,7 @@ Excluding the header, there are 5357193 characters in the file, one of which is 
 
 ## Assembly Metrics and Quality Control
 
-How well assembled is the genome? What are its characteristics? We can look at a few different metrics to get an idea of whether or not the assembly meets our expectations for the genome in terms of composition and contiguity, completeness, and correctness.
-
-### Composition
-
+How well assembled is the genome? What are its characteristics? We can look at a few different metrics to get an idea of whether or not the assembly meets our expectations for the genome in terms of contiguity, completeness, and correctness.
 
 ### Contiguity
 
