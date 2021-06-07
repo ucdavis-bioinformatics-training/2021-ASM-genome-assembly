@@ -35,17 +35,17 @@ The quantity of data storage and the amount of processing needed should be suffi
 
 ### The applications that need to be first installed are:
 
-    1. [Samtools](http://www.htslib.org/)
-    2. [Bamutil](https://github.com/statgen/bamUtil/)
-    3. [ccs](https://github.com/PacificBiosciences/ccs/)
-    4. [Canu](https://canu.readthedocs.io/en/latest/index.html)
-    5. [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus)
-    6. [HTStream](https://s4hts.github.io/HTStream/)
-    7. [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2)
-    8. [Pilon](https://github.com/broadinstitute/pilon/wiki)
-    9. [BLAST](https://www.ncbi.nlm.nih.gov/books/NBK279690/)
-    10. [Barrnap](https://github.com/tseemann/barrnap)
-    11. [FastANI](https://github.com/ParBLiSS/FastANI)
+1. [Samtools](http://www.htslib.org/)
+2. [Bamutil](https://github.com/statgen/bamUtil/)
+3. [ccs](https://github.com/PacificBiosciences/ccs/)
+4. [Canu](https://canu.readthedocs.io/en/latest/index.html)
+5. [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsensus)
+6. [HTStream](https://s4hts.github.io/HTStream/)
+7. [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2)
+8. [Pilon](https://github.com/broadinstitute/pilon/wiki)
+9. [BLAST](https://www.ncbi.nlm.nih.gov/books/NBK279690/)
+10. [Barrnap](https://github.com/tseemann/barrnap)
+11. [FastANI](https://github.com/ParBLiSS/FastANI)
 
 ## Data Availability
 
