@@ -1,5 +1,7 @@
 # Annotating Bacterial Genomes, with a focus on PGAP
 
+**Jie Li, PhD, University of California, Davis**
+
 ## Assess the completeness of the assembled genome
 The quality of the assembled genome directly affects the quality of the annotation process. Therefore, we are going to assess the completeness of the assembly using BUSCO. The detailed tutorial could be found [here](https://ucdavis-bioinformatics-training.github.io/2020-Genome_Assembly_Workshop/busco/busco). Setting up the configuration file for running BUSCO requires the knowledge of the species that the assembly is for and the domain of species that the assembly should be checked against. Running busco under command line interface is by executing the following command:
 
