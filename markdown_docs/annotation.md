@@ -1,11 +1,13 @@
 # Annotating Bacterial Genomes, with a focus on PGAP
 
+*Jie Li, PhD, University of California, Davis*
+
 ## Assess the completeness of the assembled genome
-The quality of the assembled genome directly affects the quality of the annotation process. Therefore, we are going to assess the completeness of the assembly using BUSCO. The detailed tutorial could be found [here](https://ucdavis-bioinformatics-training.github.io/2020-Genome_Assembly_Workshop/busco/busco). Setting up the configuration file for running BUSCO requires the knowledge of the species that the assembly is for and the domain of species that the assembly should be checked against. Running busco under command line interface is by executing the following command:
+The quality of the assembled genome directly affects the quality of the annotation process. In the previous session, we have assssed the completeness of the assembly by comparing the assembled genome size to the expected genome size. Here, we are going to assess the completeness of the assembly from the gene space point of view. BUSCO will be used for this purpose. The detailed tutorial could be found [here](https://ucdavis-bioinformatics-training.github.io/2020-Genome_Assembly_Workshop/busco/busco). Setting up the configuration file for running BUSCO requires the knowledge of the species that the assembly is for and the domain of species that the assembly should be checked against. Running busco under command line interface is by executing the following command:
 
-    busco -i input.fasta -o outputdir
+    busco -i baccanu.contigs.fasta -o canu.busco
 
-The major factors to look for in a BUSCO assessment include: the completeness percentage and the duplication rate. We would like to see as high as possible for the completeness percentage and as low as possible for the duplication rate. The BUSCO result for our assembly is very good.
+The major factors to pay attention to in a BUSCO assessment include: the completeness percentage and the duplication rate. We would like to see as high as possible for the completeness percentage and as low as possible for the duplication rate. The BUSCO result for our assembly is very good.
 
 ![busco](./annotation_figures/busco.png)
 
@@ -63,4 +65,4 @@ Now we are ready to run PGAP. The following command will run the full PGAP pipel
     ./pgap.py -r -o baccanu_anno ./input.yaml
 
 
-
+This simply command runs the full PGAP annotation pipeline, in a couple hours on an AWS instance with 8 CPUs and 32GB memory. The results are stored inside *baccanu_anno* [directory](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_outputs/). The file *annot.gbk* is the annotation result in genbank format. The file *annot.gff* is the annotation result in gff3 format.
