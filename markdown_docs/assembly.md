@@ -4,7 +4,7 @@
 
 ## Assembling a bacterial genome with PacBio sequence data
 
-The data and pipeline in this tutorial are adapted from [**Complete Genome Sequence of *Bacillus* sp. Strain Rz2MS9, a Multitrait Plant Growth Promoter**](https://journals.asm.org/doi/full/10.1128/MRA.00623-20 When referring to this pipeline, please cite the publication.
+The data and pipeline in this tutorial are adapted from **Complete Genome Sequence of *Bacillus* sp. Strain Rz2MS9, a Multitrait Plant Growth Promoter**. When referring to this pipeline, please cite the [publication]((https://journals.asm.org/doi/full/10.1128/MRA.00623-20).
 
 ### Explore the sequence data
 
@@ -22,6 +22,15 @@ The bam stats tool from [bamutil](https://github.com/statgen/bamUtil/) allows us
               --basic \
               2> 01-bamStats/isi_run_02.txt
 
+From the results, we can see that Run 2 produced far more sequence than Run 1, both in terms of number of reads and total number of bases sequenced.
+
+    grep Total 01-bamStats/isi_run_01.txt
+    TotalReads	66292.00
+    TotalBases	446562286.00
+    grep Total 01-bamStats/isi_run_02.txt
+    TotalReads	122450.00
+    TotalBases	786535236.00
+
 #### What does the ZMW count distribution look like?
 
 First, we will need to count the occurrence of each ZMW. Using [samtools](https://github.com/samtools/samtools/releases/tag/1.9) and a few basic text manipulation tools on the command line, we can derive a comma separated counts table of ZMWs from the PacBio read data. The multi-line command below will:
@@ -31,7 +40,7 @@ First, we will need to count the occurrence of each ZMW. Using [samtools](https:
 3. Extract the read name field from the SAM formatted read file
 4. Extract the ZMW from the read name
 5. Sort ZMWs as a prerequisite to counting occurences
-6. Display counts for each ZMW
+6. Calculate counts for each ZMW
 7. Remove excess whitespace
 8. Reorder columns, separating them with a comma
 9. Append output to the CSV
@@ -83,7 +92,7 @@ While the second run has approximately twice as many ZMW as the first, the distr
 
 ### Convert CLR to CCS
 
-The reads generated from the two PacBio runs are consenusus long reads (CLR). However, circular consensus sequencing (CCS) produces a better a more accurate, higher quality sequence by creating consenus sequence from sub-reads. It's possible to convert CLR to CCS, and if enough read coverage remains after conversion, these reads will generate a higher quality assembly. In order to convert our CLR to CCS, we will run PacBio's [ccs/4.2.0](https://github.com/PacificBiosciences/ccs/).
+The reads generated from the two PacBio runs are consensus long reads (CLR). However, circular consensus sequencing (CCS) produces a more accurate, higher quality sequence by creating consensus sequence from sub-reads. It's possible to convert CLR to CCS, and if enough read coverage remains after conversion, these reads will generate a higher quality assembly. In order to convert our CLR to CCS, we will run PacBio's [ccs/4.2.0](https://github.com/PacificBiosciences/ccs/).
 
     ccs --reportFile=03-CCS/isi_run_01.report \
          00-RawData/isi_run_01/lima_output.bc1002_BAK8A_OA--bc1002_BAK8A_OA.bam \
@@ -95,7 +104,7 @@ The reads generated from the two PacBio runs are consenusus long reads (CLR). Ho
 
 ### Assemble the genome
 
-The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/latest/index.html) takes FASTA formatted reads as input, so we will need to convert our BAM formatted CCS reads to FASTA using samtools. The Canu pipeline consists of three tasks: read correction, read trimming, and unitig construction. Because CCS reads are already corrected, we will only run the final assembly step of the pipeline, using the "hifi" flag to let Canu know that we are providing corrected reads. This is referred to as "HiCanu."
+The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/latest/index.html) takes FASTA-formatted reads as input, so we will need to convert our BAM-formatted CCS reads to FASTA using samtools. The Canu pipeline consists of three tasks: read correction, read trimming, and unitig construction. Because CCS reads are already corrected, we will only run the final assembly step of the pipeline, using the "hifi" flag to let Canu know that we are providing corrected reads. This is referred to as "HiCanu."
 
     samtools fastq 03-CCS/isi_run_01.ccs.bam > 03-CCS/isi_run_01.ccs.fq
     samtools fastq 03-CCS/isi_run_02.ccs.bam > 03-CCS/isi_run_02.ccs.fq
@@ -108,6 +117,9 @@ The CCS reads are ready to assemble. [Canu](https://canu.readthedocs.io/en/lates
          -pacbio-hifi 03-CCS/isi_run_0?.ccs.fq
 
 The HiCanu assembly produces a single contig of 5364948 bp in length. We will take a closer look at it in later steps.
+
+    grep ">" 04-HiCanu/bacillus.ccs.contigs.fasta
+    >tig00000001 len=5364948 reads=11770 class=contig suggestRepeat=no suggestBubble=no suggestCircular=no trim=0-5364948
 
 If there are not sufficient reads to assemble after converting to CCS, we can assemble the CLR reads instead. In this case, we run the entire Canu pipeline, rather than the assembly step by itself.
 
@@ -133,7 +145,7 @@ PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsens
                   -o 05-GenomicConsensus/variants-raw.gff \
                   -o 05-GenomicConsensus/bacillus.arrow.fasta
 
-The read-correction process is extremely effective. GenomicConsensus identifies 10 variants: 5 single basepair insertions and 5 small deletions in the raw reads relative to the reference.
+The read-correction process is extremely effective. GenomicConsensus identifies 10 variants: 5 single base insertions and 5 small deletions in the raw reads relative to the reference.
 
     tail 05-GenomicConsensus/variants-raw.gff
     tig00000001	.	insertion	1598	1598	.	.	.	reference=.;variantSeq=A;coverage=22;confidence=41
@@ -208,13 +220,18 @@ The preprocessed reads can now be aligned to the assembly. We will use [bwa-mem2
 
 Running Pilon generates a series of genome browser tracks, a .changes file, and a corrected assembly FASTA. In this case, Pilon has made only one change to the genome sequence: correcting a 2 bp indel.
 
+    cat 07-Pilon/bacillus.pilon.changes
+    tig00000001|arrow:3061036 tig00000001|arrow|pilon:3061036-3061037 . AT
+
 Further examination of the output files reveals that Pilon has identified a number of other regions where the short read alignments appeared "suspicious". This may mean that the coverage in the region dips or peaks abruptly, or that there are an unusually high number of improperly mapped read pairs in the region. Pilon will break the assembly at these locations, and attempt to re-assemble. In this case, Pilon was unable to find any solution for these regions, and no changes were made to the genome sequence as a result.
 
 ### Make final adjustments to assembly
 
+Once the sequence has been corrected, our genome assembly is nearly complete. The next few steps require some manual inspection of the genome.
+
 #### Look for overlap between beginning and end of genome
 
-Because the species we're assembling has a single circular chromosome, we may see overlap between the beginning and end of our genome sequence. Using samtools and BLAST on the command line, we can check the ends of our sequence to see if they overlap one another.
+Because the species we're assembling has a single circular chromosome, we expect some overlap between the beginning and end of our genome sequence. Using samtools and BLAST on the command line, we can check the ends of our sequence to see if they overlap one another.
 
     mkdir 08-Final
     sed 's/|arrow|pilon//' 07-Pilon/bacillus.pilon.fasta > 08-Final/pilon.complete.fasta
@@ -233,7 +250,7 @@ We can resolve this by removing the redundant bases.
 
 #### Verify strand orientation of assembly
 
-The orientation of the assembly should be consistent with those of other genome sequences in closely related taxa. Because this assembly is of the genome of an unidentified *Bacillus* species, the conventional representation of the genome places the first base of the sequence at the beginning of the gene encoding DnaA, the chromosomal replication initiator protein. To verify the directionality of the strand, we can do a BLAST search against the protein sequence of dnaA in [another species](https://www.ncbi.nlm.nih.gov/protein/16077069).
+The orientation of the assembly should be consistent with those of other genome sequences in closely related taxa. Because this assembly is of the genome of an unidentified *Bacillus* species, the conventional representation of the genome places the first base of the sequence at the beginning of the gene encoding DnaA, the chromosomal replication initiator protein. To verify the directionality of the strand, we can do a BLAST search against the [protein sequence of dnaA in another species](https://www.ncbi.nlm.nih.gov/protein/16077069).
 
     tblastn -query 08-Final/B.subtilis.subtilis.168.DnaA.fasta -subject 08-Final/pilon.trim.fasta -outfmt 6
 
@@ -267,11 +284,11 @@ Finally, we can manually merge our split contig to form the correctly oriented c
     grep -v ">" 08-Final/genome.fasta | wc
           1       1 5357193
 
-Excluding the header, there are 5357193 characters in the file, one of which is a newline character, which leaves us with a total of 5357192, the expected length of our genome sequence after Pilon removed 2 bp.
+Excluding the header, there are 5357193 characters in the file, one of which is a newline character, which leaves us with a total of 5357192, the expected length of our genome sequence.
 
 ## Assembly Metrics and Quality Control
 
-How well assembled is the genome? What are its characteristics? We can look at a few different metrics to get an idea of whether or not the assembly meets our expectations for the genome in terms of contiguity, completeness, and correctness.
+How well assembled is the genome? We can look at a few different metrics to get an idea of whether or not the assembly meets our expectations for the genome in terms of contiguity, completeness, and correctness.
 
 ### Contiguity
 
@@ -285,11 +302,11 @@ In a perfectly assembled single chromosome genome, the N50 and the size of the a
 
 ![Graphical example of N50](assembly_figures/N50_example.pdf)
 
-Our assembly is a single contig, so the N%0 is the same as the genome sequence length. Another measure that is used to assess contiguity is **NG50**, which uses the genome size where the N50 uses the assembly size, making the metric comparable between assemblies of different sizes. Since we only have one contig, the N50 and the NG50 are identical.
+Our assembly is a single contig, so the N%0 is the same as the genome sequence length.
 
 #### L50
 
-The L50 is the smallest number of contigs whose length total at least 50% of the genome size. This is the number of contigs used in the N50. A lower number represents higher contiguity.
+The L50 is the smallest number of contigs whose length total at least 50% of the genome size. This is the number of contigs used in the N50. A lower number represents higher contiguity. In our hypothetical example, the L50 is 2.
 
 ![Graphical example of L50](assembly_figures/L50_example.pdf)
 
