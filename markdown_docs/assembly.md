@@ -1,6 +1,6 @@
 # Assembly, Assembly Metrics, and Quality Control
 
-*Dr. Hannah Lyman, University of California, Davis*
+*Hannah Lyman, PhD, University of California, Davis*
 
 ## Assembling a bacterial genome with PacBio sequence data
 
@@ -133,6 +133,21 @@ PacBio's [GenomicConsensus](https://github.com/PacificBiosciences/GenomicConsens
                   -o 05-GenomicConsensus/variants-raw.gff \
                   -o 05-GenomicConsensus/bacillus.arrow.fasta
 
+The read-correction process is extremely effective. GenomicConsensus identifies 10 variants: 5 single basepair insertions and 5 small deletions in the raw reads relative to the reference.
+
+    tail 05-GenomicConsensus/variants-raw.gff
+    tig00000001	.	insertion	1598	1598	.	.	.	reference=.;variantSeq=A;coverage=22;confidence=41
+    tig00000001	.	insertion	1770	1770	.	.	.	reference=.;variantSeq=T;coverage=22;confidence=68
+    tig00000001	.	deletion	2382	2382	.	.	.	reference=G;variantSeq=.;coverage=23;confidence=93
+    tig00000001	.	deletion	2438	2450	.	.	.	reference=CCCCTCCTCCCCC;variantSeq=.;coverage=23;confidence=93
+    tig00000001	.	deletion	2452	2453	.	.	.	reference=CC;variantSeq=.;coverage=23;confidence=93
+    tig00000001	.	insertion	297977	297977	.	.	.	reference=.;variantSeq=A;coverage=60;confidence=93
+    tig00000001	.	insertion	301329	301329	.	.	.	reference=.;variantSeq=T;coverage=53;confidence=93
+    tig00000001	.	insertion	302211	302211	.	.	.	reference=.;variantSeq=A;coverage=44;confidence=93
+    tig00000001	.	deletion	3061047	3061048	.	.	.	reference=AT;variantSeq=.;coverage=100;confidence=93
+    tig00000001	.	deletion	5363706	5363706	.	.	.	reference=A;variantSeq=.;coverage=30;confidence=71
+
+
 ### Incorporate short read data
 
 In addition to the two PacBio runs, we have a paired-end Illumina library. Before the development of CCS, it was common practice to perform error correction on long read assemblies using more accurate short read technology. CCS reads are generally so accurate that this is not necessary. However, since we have the data, we will use it.
@@ -188,8 +203,12 @@ The preprocessed reads can now be aligned to the assembly. We will use [bwa-mem2
           --unpaired 07-Pilon/bacillus.arrow.SE.bam \
           --output 07-Pilon/bacillus.pilon \
           --changes \
-          --vcfqe \
+          --vcf \
           --tracks
+
+Running Pilon generates a series of genome browser tracks, a .changes file, and a corrected assembly FASTA. In this case, Pilon has made only one change to the genome sequence: correcting a 2 bp indel.
+
+Further examination of the output files reveals that Pilon has identified a number of other regions where the short read alignments appeared "suspicious". This may mean that the coverage in the region dips or peaks abruptly, or that there are an unusually high number of improperly mapped read pairs in the region. Pilon will break the assembly at these locations, and attempt to re-assemble. In this case, Pilon was unable to find any solution for these regions, and no changes were made to the genome sequence as a result.
 
 ### Make final adjustments to assembly
 
@@ -197,28 +216,64 @@ The preprocessed reads can now be aligned to the assembly. We will use [bwa-mem2
 
 Because the species we're assembling has a single circular chromosome, we may see overlap between the beginning and end of our genome sequence. Using samtools and BLAST on the command line, we can check the ends of our sequence to see if they overlap one another.
 
-    samtools faidx 07-Pilon/bacillus.pilon.fasta contig:0-overlap --output 07-Pilon/contig.0.overlap.fasta
-    samtools faidx 07-Pilon/bacillus.pilon.fasta contig:overlap-end --output 07-Pilon/contig.overlap.end.fasta
-    blastn --query 07-Pilon/contig.0.overlap.fasta --subject 07-Pilon/contig.overlap.end.fasta
+    mkdir 08-Final
+    sed 's/|arrow|pilon//' 07-Pilon/bacillus.pilon.fasta > 08-Final/pilon.complete.fasta
+    samtools faidx 08-Final/pilon.complete.fasta tig00000001:1-50000 --output 08-Final/pilon.beg.fasta
+    samtools faidx 08-Final/pilon.complete.fasta tig00000001:5314937-5364936 --output 08-Final/pilon.end.fasta
+    blastn -query 08-Final/pilon.end.fasta -subject 08-Final/pilon.beg.fasta -outfmt 6
+
+The last 7744 bp of our contig are 100% identical to the first 7744 bp.
+
+    tig00000001:5314937-5364936	tig00000001:1-50000	100.000	7744	0	0	42257	50000	1	7744	0.0	14301
+
+We can resolve this by removing the redundant bases.
+
+    samtools faidx 08-Final/pilon.complete.fasta tig00000001:1-5357192 --output 08-Final/pilon.trim.fasta
+
 
 #### Verify strand orientation of assembly
 
-The orientation of the assembly should be consistent with other assemblies in related taxa.
+The orientation of the assembly should be consistent with those of other genome sequences in closely related taxa. Because this assembly is of the genome of an unidentified *Bacillus* species, the conventional representation of the genome places the first base of the sequence at the beginning of the gene encoding DnaA, the chromosomal replication initiator protein. To verify the directionality of the strand, we can do a BLAST search against the protein sequence of dnaA in [another species](https://www.ncbi.nlm.nih.gov/protein/16077069).
 
+    tblastn -query 08-Final/B.subtilis.subtilis.168.DnaA.fasta -subject 08-Final/pilon.trim.fasta -outfmt 6
+
+This search returns a handful of results, only one of which is a full-length alignment.
+
+    NP_387882.1	tig00000001:1-5357192	83.857	446	72	0	1	446	3526746	3528083	0.0	776
+    NP_387882.1	tig00000001:1-5357192	34.737	95	54	3	122	216	2655266	2655006	3.44e-07	50.4
+    NP_387882.1	tig00000001:1-5357192	33.333	48	31	1	70	116	937226	937369	0.45	30.4
+    NP_387882.1	tig00000001:1-5357192	31.915	47	32	0	330	376	2507658	2507798	3.6	27.7
+    NP_387882.1	tig00000001:1-5357192	35.897	39	25	0	220	258	3356476	3356360	3.9	27.3
+    NP_387882.1	tig00000001:1-5357192	28.571	91	56	4	108	194	4979649	4979906	4.4	27.3
+    NP_387882.1	tig00000001:1-5357192	28.333	60	38	2	222	279	2601964	2601794	5.8	26.9
+    NP_387882.1	tig00000001:1-5357192	47.368	19	10	0	142	160	2009262	2009206	7.0	26.6
+
+The start coordinate of the alignment is smaller than the end coordinate for both the query and the subject, which indicates that our assembly has the same orientation as that of the *Bacillus subtilis* strain we used as a reference. If, on the other hand, the query start and end coordinates had been reversed, we would need to reverse complement our genome sequence.
 
 #### Set origin of replication
 
-    samtools faidx 07-Pilon/bacillus.pilon.fasta --reverse-complement contig:10037-end --output 07-Pilon/bacillus.pilon.trimmed.rc.fasta
+Finally, we will set the beginning of the chromosome to the first base of dnaA, as identified in our BLAST search. First we need to remove the coordinate information from the FASTA header  in order to allow samtools to correctly process the chromosme name.
+
+    cut -d ":" -f1 08-Final/pilon.trim.fasta > 08-Final/pilon.trim.renamed.fasta
+
+Then, we divide the contig in two at the first base of dnaA. Omitting one coordinate tells samtools to use the start or end coordinate by default. The length option ensures that our FASTA entries are not split over multiple lines. This will make the file easier to manually join in the next step.
+
+    echo "tig00000001:3526746-" > 08-Final/regions.txt
+    echo "tig00000001:-3526745" >> 08-Final/regions.txt
+    faidx 08-Final/pilon.trim.renamed.fasta --region-file 08-Final/regions.txt --length 5357192 --output 08-Final/pilon.reorder.fasta
+
+Finally, we can manually merge our split contig to form the correctly oriented chromosome, and rename the entry. To check that the sequence has the expected length, we can count the characters in the file.
+
+    grep -v ">" 08-Final/genome.fasta | wc
+          1       1 5357193
+
+Excluding the header, there are 5357193 characters in the file, one of which is a newline character, which leaves us with a total of 5357192, the expected length of our genome sequence after Pilon removed 2 bp.
 
 ## Assembly Metrics and Quality Control
 
 How well assembled is the genome? What are its characteristics? We can look at a few different metrics to get an idea of whether or not the assembly meets our expectations for the genome in terms of composition and contiguity, completeness, and correctness.
 
-We will use each metric on the polished CCS genome assembly as well as the CLR assembly.
-
 ### Composition
-
-The two genomes are similar in length, and nearly identical in sequence.
 
 
 ### Contiguity
@@ -233,14 +288,16 @@ In a perfectly assembled single chromosome genome, the N50 and the size of the a
 
 ![Graphical example of N50](assembly_figures/N50_example.pdf)
 
+Our assembly is a single contig, so the N%0 is the same as the genome sequence length. Another measure that is used to assess contiguity is **NG50**, which uses the genome size where the N50 uses the assembly size, making the metric comparable between assemblies of different sizes. Since we only have one contig, the N50 and the NG50 are identical.
+
 #### L50
 
 The L50 is the smallest number of contigs whose length total at least 50% of the genome size. This is the number of contigs used in the N50. A lower number represents higher contiguity.
 
 ![Graphical example of L50](assembly_figures/L50_example.pdf)
 
-Both of our assemblies are highly contiguous with an L50 of 1.
+Because we were able to assemble the sequence into a single contig, our genome has an L50 of 1.
 
 ### Completeness and correctness
 
-The assembly size is very similar to the expected genome size. The variantCaller and Pilon tools identified and corrected a small number of assembly errors. We can be reasonable confident that the genome is complete and does not contain any major errors.
+The assembly size is very similar to the expected genome size of 5.5 MB. The variantCaller and Pilon tools identified and corrected a small number of assembly errors. We can be reasonably confident that the genome is complete and does not contain any major errors. One way to assess the completeness and correctness of the assembled sequence is with Benchmarking Universal Single-Copy Orthologs (BUSCO), which will be discussed in the next section.
