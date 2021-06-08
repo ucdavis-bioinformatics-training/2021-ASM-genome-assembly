@@ -302,7 +302,7 @@ In a perfectly assembled single chromosome genome, the N50 and the size of the a
 
 ![Graphical example of N50](assembly_figures/N50_example.pdf)
 
-Our assembly is a single contig, so the N%0 is the same as the genome sequence length.
+Our assembly is a single contig, so the N50 is the same as the genome sequence length.
 
 #### L50
 
