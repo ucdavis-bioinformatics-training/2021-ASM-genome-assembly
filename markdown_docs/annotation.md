@@ -25,8 +25,10 @@ There are a few annotation pipelines designed for annotating bacterial genomes.
 3. RAST [Rapid Annotations using Subsystem Technology](https://rast.nmpdr.org/)
 4. DRAM [Distilled and Refined Annotation of Metabolism](https://github.com/shafferm/DRAM)
 
+These pipelines take the assembled genome fasta file as input. The databases used vary. Prokka and RAST use curated databases, usually smaller, to speed up the searching while maintaining high-quality annotation.
+
 ## Introduction to PGAP
-Running PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher, and minimum 80GB disk space). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP. 
+PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher, and minimum 80GB disk space). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP. 
 
 ![PGAP](./annotation_figures/PGAP_flowchart.png)
 
@@ -65,4 +67,12 @@ Now we are ready to run PGAP. The following command will run the full PGAP pipel
     ./pgap.py -r -o baccanu_anno ./input.yaml
 
 
-This simply command runs the full PGAP annotation pipeline, in a couple hours on an AWS instance with 8 CPUs and 32GB memory. The results are stored inside *baccanu_anno* [directory](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_outputs/). The file *annot.gbk* is the annotation result in genbank format. The file *annot.gff* is the annotation result in gff3 format.
+This simply command runs the full PGAP annotation pipeline, in a couple hours on an AWS instance with 8 CPUs and 32GB memory. The results are stored inside *baccanu_anno* [directory](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/annotation_outputs/). The file *annot.gbk* is the annotation result in genbank format. The file *annot.gff* is the annotation result in gff3 format. The file *annot.sqn* could be submitted to genbank as the included annotation when one submits the assembled genome.
+
+
+## More resources
+
+1. [microbeannotator](https://github.com/cruizperez/MicrobeAnnotator)
+2. [KEGG Mapper](https://www.genome.jp/kegg/tool/map_pathway.html)
+
+
