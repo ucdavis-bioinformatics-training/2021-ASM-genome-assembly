@@ -15,7 +15,7 @@ This bacterium was isolated from the rizosphere of guarana plants (_Paullinia cu
 
 <p align="center">
 <img src="fig_bact_tax/Guarana.jpg" alt="Guarana_Plants" width="30%" img align="center"/>
-</p>r
+</p>
 
 The _Bacillus thuringiensis_ RZ2MS9 is a plant growth-promoting bacteria, so it harbors several genes related with plant growth-promoting traits, such as the production of indole acetic acid, solubilization of phosphate, and more.
 
@@ -24,10 +24,6 @@ The _Bacillus thuringiensis_ RZ2MS9 is a plant growth-promoting bacteria, so it 
 </p>
 
 Read the paper: [Batista et al. 2018](https://www.sciencedirect.com/science/article/pii/S0944501317309229).
-
-## Contacts
-
-    * Dr. Matt Settles <settles@ucdavis.edu>, Director, UC Davis Bioinformatics Core
 
 ## Computing needs
 
@@ -49,7 +45,7 @@ The quantity of data storage and the amount of processing needed should be suffi
 
 ## Data Availability
 
-    The data files needed for this workshop can be found [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/) on our Bioshare application. Please download all these data to your computers before continuing on.
+The data files needed for this workshop can be found [here](https://bioshare.bioinformatics.ucdavis.edu/bioshare/view/2021-ASM-genome-assembly/) on our Bioshare application. Please download all these data to your computers before continuing on.
 
 ## Workshop Materials
 
