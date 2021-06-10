@@ -119,7 +119,7 @@ wget https://bioshare.bioinformatics.ucdavis.edu/bioshare/download/ua4gjm2jyj12o
 
 This will download 2 folders (isi_run_01 and isi_run_02) into the 00-RawData directory and 2 files (RZ2M29_S1_L001_R1_001.fastq.gz and RZ2M29_S1_L001_R1_001.fastq.gz).
 
-**These files may take some time to downlaod so I recommend pausing the recording while they do**
+**These files may take some time to download so I recommend pausing the recording while they do**
 
 If we take a look at one of the PacBio runs:
 
