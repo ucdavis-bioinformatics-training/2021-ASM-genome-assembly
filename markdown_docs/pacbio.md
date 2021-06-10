@@ -121,7 +121,62 @@ This will download 2 folders (isi_run_01 and isi_run_02) into the 00-RawData dir
 
 **These files may take some time to downlaod so I recommend pausing the recording while they do**
 
-## Files and File Types
+If we take a look at one of the PacBio runs:
+
+```bash
+cd isi_run_01
+ls
+```
+
+You will find limma demultiplexing output files, sample bam (and index) files, and sample fastq files.
+
+
+```bash
+cat lima_output.lima.summary
+```
+
+> ZMWs input                (A) : 30655  
+> ZMWs above all thresholds (B) : 18891 (62%)  
+> ZMWs below any threshold  (C) : 11764 (38%)  
+>  
+> ZMW marginals for (C):  
+> Below min length              : 18 (0%)  
+> Below min score               : 0 (0%)  
+> Below min end score           : 0 (0%)  
+> Below min passes              : 0 (0%)  
+> Below min score lead          : 344 (3%)  
+> Below min ref span            : 96 (1%)  
+> Without adapter               : 11392 (97%)  
+> Undesired diff barcode pairs  : 22 (0%)  
+>  
+> ZMWs for (B):  
+> With same barcode             : 18891 (100%)  
+> Coefficient of correlation    : 22.21%  
+>  
+> ZMWs for (A):  
+> Allow diff barcode pair       : 13393 (44%)  
+> Allow same barcode pair       : 19263 (63%)  
+>  
+> Reads for (B):  
+> Above length                  : 132486 (100%)  
+> Below length                  : 164 (0%)  
+
+&nbsp;
+
+#### Each Bam line looks like
+
+
+> m54358_191123_155756/4194862/0_73	4	*	0	255	*	*	0	0	ATTACACATCATAACGTACTTCAAGAGCTTCGCATGCCTAGAGCAATAGGTTGCTAGTTTTTCAGGTGCCTTT	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	RG:Z:b1364beb	ip:B:C,4,7,4,1,5,13,6,5,15,11,12,3,12,32,4,14,2,4,23,32,7,14,21,3,1,1,24,6,0,5,5,0,0,7,14,3,2,2,11,8,6,19,21,1,0,11,9,3,9,5,20,7,5,6,71,10,5,0,21,14,3,15,27,23,67,6,19,25,15,22,34,2,3	np:i:1	pw:B:C,20,8,6,10,4,4,19,4,2,7,10,8,5,4,21,10,5,17,2,14,4,39,3,17,24,15,11,7,9,10,16,23,27,13,10,4,14,8,29,5,4,41,22,34,6,7,15,22,8,3,9,3,19,13,4,29,36,8,4,18,6,2,49,26,54,18,17,14,14,5,18,17,28	rq:f:0.8	sn:B:f,6.15196,11.3958,6.82309,11.6206	zm:i:4194862	qs:i:0	qe:i:73	bc:B:S,1,1	bq:i:82	cx:i:10  
+
+&nbsp;
+
+#### The header line of a PacBio fastq file look like
+
+> @m54358_191123_155756/4194862/0_73
+
+&nbsp;
+
+# Files and File Types
 
 The primary file types you'll see related to DNA sequence analysis are:
 
