@@ -1,5 +1,10 @@
 # Bacterial Taxonomy with Whole-genome Data
+
 _Dr. Maria Bonatelli, University of São Paulo, Piracicaba, Brazil._
+
+
+The ASM Recording that accompanies this section can be found [here](https://video.ucdavis.edu/media/ASM_Bonatelli_Part4/1_h4bd9k00)
+
 
 ## Introduction to Bacterial Taxonomy
 
@@ -66,7 +71,7 @@ Bacteria can have more than one copy of the 16S gene. Our isolate has 14 copies 
 
 <img src="fig_bact_tax/Figures_barrnap3.png" alt="barrnap_seq" width="80%"/>
 
-Once you have one or more 16S rRNA genes from your genome, you can use different databases to identify your bacteria. I recommend three: 
+Once you have one or more 16S rRNA genes from your genome, you can use different databases to identify your bacteria. I recommend three:
 1.	Ribosomal Database Project (RDP) [Classifier Tool](https://rdp.cme.msu.edu/help/CL.jsp) allows classification of both bacterial and archaeal 16S rRNA sequences to the taxonomical hierarchy.
 
 2.	Silva rRNA database project [ACT: Alignment, Classification and Tree Service](https://www.arb-silva.de/aligner/).
@@ -77,7 +82,7 @@ Once you have one or more 16S rRNA genes from your genome, you can use different
 
 ### What is ANI?
 
-When you have the whole-genome of a bacterial species, you should consider more robust methods to identify your bacterium than using only the 16S rRNA gene. A pragmatic species circumscription of two bacteria is when they have at least 70% of DNA–DNA hybridization, that corresponds to ~ 94% of the Average Nucleotide Identity (ANI). 
+When you have the whole-genome of a bacterial species, you should consider more robust methods to identify your bacterium than using only the 16S rRNA gene. A pragmatic species circumscription of two bacteria is when they have at least 70% of DNA–DNA hybridization, that corresponds to ~ 94% of the Average Nucleotide Identity (ANI).
 
 The ANI considers all protein-coding genes between two species to measure their genetic relatedness through alignment. [Konstantinidis and Tiedje (2005)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC549018/) showed that ANI strongly correlates with both 16S rRNA gene sequence identity and DNA–DNA reassociation values.
 

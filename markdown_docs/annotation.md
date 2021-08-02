@@ -2,6 +2,10 @@
 
 *Jie Li, PhD, University of California, Davis*
 
+
+The ASM Recording that accompanies this section can be found [here](https://video.ucdavis.edu/media/ASM_Li_Part3/1_b1jrnaas)
+
+
 ## Assess the completeness of the assembled genome
 The quality of the assembled genome directly affects the quality of the annotation process. In the previous session, we have assssed the completeness of the assembly by comparing the assembled genome size to the expected genome size. Here, we are going to assess the completeness of the assembly from the gene space point of view. BUSCO will be used for this purpose. The detailed tutorial could be found [here](https://ucdavis-bioinformatics-training.github.io/2020-Genome_Assembly_Workshop/busco/busco). Setting up the configuration file for running BUSCO requires the knowledge of the species that the assembly is for and the domain of species that the assembly should be checked against. Running busco under command line interface is by executing the following command:
 
@@ -28,7 +32,7 @@ There are a few annotation pipelines designed for annotating bacterial genomes.
 These pipelines take the assembled genome fasta file as input. The databases used vary. Prokka and RAST use curated databases, usually smaller, to speed up the searching while maintaining high-quality annotation.
 
 ## Introduction to PGAP
-PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher, and minimum 80GB disk space). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP. 
+PGAP annotation for newly assembled bacterial genomes is easy to setup and the requirement in computing resources is reasonable (8 CPUs with 16GB memory or higher, and minimum 80GB disk space). The advantages of using PGAP is not only that it produces NCBI/GenBank recognized file formats, but also the extremely well organized and curated databases used in PGAP.
 
 ![PGAP](./annotation_figures/PGAP_flowchart.png)
 
@@ -74,5 +78,3 @@ This simply command runs the full PGAP annotation pipeline, in a couple hours on
 
 1. [microbeannotator](https://github.com/cruizperez/MicrobeAnnotator)
 2. [KEGG Mapper](https://www.genome.jp/kegg/tool/map_pathway.html)
-
-

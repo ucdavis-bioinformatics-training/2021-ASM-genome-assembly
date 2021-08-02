@@ -8,9 +8,13 @@ table {
 
 *Matt Settles, PhD, University of California, Davis*
 
+
+The ASM Recording that accompanies this section can be found [here](https://video.ucdavis.edu/media/ASM_Settles_Part1/1_ax504uio)
+
+
 ## Introduction to PacBio Sequencing
 
-Pacific Biosciences (PacBio) was founded in 2004 with its underlying technology: Single Molecule, Real-Time (SMRT) Sequencing. Its first commercial sequencer (the RS) was released in 2010. Since that time there have been 4 sequencer updates: RS II, Sequel, Sequel 2, Sequel 2e.  
+Pacific Biosciences (PacBio) was founded in 2004 with its underlying technology: Single Molecule, Real-Time (SMRT) Sequencing. Its first commercial sequencer (the RS) was released in 2010. Since that time there have been 4 sequencer updates: RS II, Sequel, Sequel 2, Sequel 2e.
 
 <img src="pacbio_figures/sequencers.png" alt="samples" width="60%"/>
 
@@ -135,38 +139,38 @@ You will find limma demultiplexing output files, sample bam (and index) files, a
 cat lima_output.lima.summary
 ```
 
-> ZMWs input                (A) : 30655  
-> ZMWs above all thresholds (B) : 18891 (62%)  
-> ZMWs below any threshold  (C) : 11764 (38%)  
->  
-> ZMW marginals for (C):  
-> Below min length              : 18 (0%)  
-> Below min score               : 0 (0%)  
-> Below min end score           : 0 (0%)  
-> Below min passes              : 0 (0%)  
-> Below min score lead          : 344 (3%)  
-> Below min ref span            : 96 (1%)  
-> Without adapter               : 11392 (97%)  
-> Undesired diff barcode pairs  : 22 (0%)  
->  
-> ZMWs for (B):  
-> With same barcode             : 18891 (100%)  
-> Coefficient of correlation    : 22.21%  
->  
-> ZMWs for (A):  
-> Allow diff barcode pair       : 13393 (44%)  
-> Allow same barcode pair       : 19263 (63%)  
->  
-> Reads for (B):  
-> Above length                  : 132486 (100%)  
-> Below length                  : 164 (0%)  
+> ZMWs input                (A) : 30655
+> ZMWs above all thresholds (B) : 18891 (62%)
+> ZMWs below any threshold  (C) : 11764 (38%)
+>
+> ZMW marginals for (C):
+> Below min length              : 18 (0%)
+> Below min score               : 0 (0%)
+> Below min end score           : 0 (0%)
+> Below min passes              : 0 (0%)
+> Below min score lead          : 344 (3%)
+> Below min ref span            : 96 (1%)
+> Without adapter               : 11392 (97%)
+> Undesired diff barcode pairs  : 22 (0%)
+>
+> ZMWs for (B):
+> With same barcode             : 18891 (100%)
+> Coefficient of correlation    : 22.21%
+>
+> ZMWs for (A):
+> Allow diff barcode pair       : 13393 (44%)
+> Allow same barcode pair       : 19263 (63%)
+>
+> Reads for (B):
+> Above length                  : 132486 (100%)
+> Below length                  : 164 (0%)
 
 &nbsp;
 
 #### Each Bam line looks like
 
 
-> m54358_191123_155756/4194862/0_73	4	*	0	255	*	*	0	0	ATTACACATCATAACGTACTTCAAGAGCTTCGCATGCCTAGAGCAATAGGTTGCTAGTTTTTCAGGTGCCTTT	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	RG:Z:b1364beb	ip:B:C,4,7,4,1,5,13,6,5,15,11,12,3,12,32,4,14,2,4,23,32,7,14,21,3,1,1,24,6,0,5,5,0,0,7,14,3,2,2,11,8,6,19,21,1,0,11,9,3,9,5,20,7,5,6,71,10,5,0,21,14,3,15,27,23,67,6,19,25,15,22,34,2,3	np:i:1	pw:B:C,20,8,6,10,4,4,19,4,2,7,10,8,5,4,21,10,5,17,2,14,4,39,3,17,24,15,11,7,9,10,16,23,27,13,10,4,14,8,29,5,4,41,22,34,6,7,15,22,8,3,9,3,19,13,4,29,36,8,4,18,6,2,49,26,54,18,17,14,14,5,18,17,28	rq:f:0.8	sn:B:f,6.15196,11.3958,6.82309,11.6206	zm:i:4194862	qs:i:0	qe:i:73	bc:B:S,1,1	bq:i:82	cx:i:10  
+> m54358_191123_155756/4194862/0_73	4	*	0	255	*	*	0	0	ATTACACATCATAACGTACTTCAAGAGCTTCGCATGCCTAGAGCAATAGGTTGCTAGTTTTTCAGGTGCCTTT	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	RG:Z:b1364beb	ip:B:C,4,7,4,1,5,13,6,5,15,11,12,3,12,32,4,14,2,4,23,32,7,14,21,3,1,1,24,6,0,5,5,0,0,7,14,3,2,2,11,8,6,19,21,1,0,11,9,3,9,5,20,7,5,6,71,10,5,0,21,14,3,15,27,23,67,6,19,25,15,22,34,2,3	np:i:1	pw:B:C,20,8,6,10,4,4,19,4,2,7,10,8,5,4,21,10,5,17,2,14,4,39,3,17,24,15,11,7,9,10,16,23,27,13,10,4,14,8,29,5,4,41,22,34,6,7,15,22,8,3,9,3,19,13,4,29,36,8,4,18,6,2,49,26,54,18,17,14,14,5,18,17,28	rq:f:0.8	sn:B:f,6.15196,11.3958,6.82309,11.6206	zm:i:4194862	qs:i:0	qe:i:73	bc:B:S,1,1	bq:i:82	cx:i:10
 
 &nbsp;
 
@@ -294,7 +298,7 @@ Each alignment line has 11 mandatory fields. These fields always appear in the s
 
 Each header line begins with the character ‘@’ followed by one of the two-letter header record type codes. In the header, each line is TAB-delimited and, apart from @CO lines, each data field
 follows a format ‘TAG:VALUE’ where TAG is a two-character string that defines the format and content of
-VALUE.   
+VALUE.
 
 The following tags are required:
 
@@ -315,10 +319,10 @@ The alignment section consists of 11 tab delimited fields.
 
 <img src="filetypes_figures/filetypes_figure7.png" alt="figure7" width="60%"/>
 
-**QNAME: Query name**  
+**QNAME: Query name**
 Read IDs are truncated at first whitespace (spaces / tabs), which can make them non-unique. Illumina reads with older IDs have trailing “/1” and “/2” stripped (this information is recorded in the next field). Illumina reads with newer IDs have second block stripped (read number is recorded in the next field).
 
-@FCC6889ACXX:5:1101:8446:45501#CGATGTATC/1 ⇒ @FCC6889ACXX:5:1101:8446:45501  
+@FCC6889ACXX:5:1101:8446:45501#CGATGTATC/1 ⇒ @FCC6889ACXX:5:1101:8446:45501
 @HISEQ:153:H8ED7ADXX:1:1101:1368:2069 1:N:0:ATCACG ⇒ @HISEQ:153:H8ED7ADXX:1:1101:1368:2069
 
 **FLAG: Alignment flags**
@@ -329,14 +333,14 @@ Tool to help explain flags
 
 https://broadinstitute.github.io/picard/explain-flags.html
 
-**RNAME: reference sequence name**  
+**RNAME: reference sequence name**
 Reference sequence ID (from fasta header) matches a @SQ field in the header section.
 
-**POS: 1-based leftmost position of (post-clipping) aligned read**  
+**POS: 1-based leftmost position of (post-clipping) aligned read**
 
-**MAPQ: mapping quality (phred scaled)**  
-MAPQ, contains the "phred-scaled posterior probability that the mapping position" is wrong.   
-In a probabilistic view, each read alignment is an estimate of the true alignment and is therefore also a random variable. It can be wrong. The error probability is scaled in the Phred. For example, given 1000 read alignments with mapping quality being 30, one of them will be incorrectly mapped to the wrong location on average.  
+**MAPQ: mapping quality (phred scaled)**
+MAPQ, contains the "phred-scaled posterior probability that the mapping position" is wrong.
+In a probabilistic view, each read alignment is an estimate of the true alignment and is therefore also a random variable. It can be wrong. The error probability is scaled in the Phred. For example, given 1000 read alignments with mapping quality being 30, one of them will be incorrectly mapped to the wrong location on average.
 A value 255 indicates that the mapping quality is not available.
 
 ###### MAPQ explained
@@ -354,7 +358,7 @@ When you see a read alignment with a mapping quality of 30 or greater, it usuall
 
 _**In practice however, each mapping application seems to compute the MAPQ in their own way.**_
 
-**CIGAR: Compact Idiosyncratic Gapped Alignment Report (CIGAR)**  
+**CIGAR: Compact Idiosyncratic Gapped Alignment Report (CIGAR)**
 The CIGAR string is used to calculate how a sequence aligns to the reference. Format: [0-9][MIDNSHP][0-9][MIDNSHP]... where M = match, I/D = insertion / deletion, N = skipped bases on reference (splicing), S/H = soft / hard clip (hard clipped bases no longer appear in the sequence field), P = padding.
 
 e.g. “100M” means that all 100 bases in the read align to bases in the reference.
@@ -369,19 +373,19 @@ e.g. “100M” means that all 100 bases in the read align to bases in the refer
 * For mRNA-to-genome alignment, an N operation represents an intron. For other types of alignments, the interpretation of N is not defined.
 * Sum of lengths of the M/I/S/=/X operations shall equal the length of SEQ.
 
-**RNEXT: reference sequence name of the primary alignment of the next read in the template.**  
+**RNEXT: reference sequence name of the primary alignment of the next read in the template.**
 For the last read, the next read is the first read in the template. If @SQ header lines are present, RNEXT (if not ‘*’ or ‘=’) must be present in one of the SQ-SN tag. This field is set as ‘*’ when the information is unavailable, and set as ‘=’ if RNEXT is identical RNAME. If not ‘=’ and the next read in the template has one primary mapping (see also bit 0x100 in FLAG), this field is identical to RNAME at the primary line of the next read. If RNEXT is ‘*’, no assumptions can be made on PNEXT and bit 0x20.
 
-**PNEXT: 1-based position of the primary alignment of the next read in the template.**  
+**PNEXT: 1-based position of the primary alignment of the next read in the template.**
 This field equals POS at the primary alignment of the next read. If PNEXT is 0, no assumptions can be made on RNEXT and bit 0x20. Set as 0 when the information is unavailable.
 
-**TLEN: The signed observed Template length.**  
+**TLEN: The signed observed Template length.**
 If all segments are mapped to the same reference, the unsigned observed template length equals the number of bases from the leftmost mapped base to the rightmost mapped base. The leftmost segment has a plus sign and the rightmost has a minus sign. The sign of segments in the middle is undefined. It is set as 0 for single-segment template or when the information is unavailable.
 
-**SEQ: segment sequence**  
+**SEQ: segment sequence**
 The sequence that was aligned. If hard clipping occurred, only the aligned portion is represented, if soft clipping occurred, the original sequence is present.
 
-**QUAL: segment quality scores**  
+**QUAL: segment quality scores**
 The quality scores of the sequence that was aligned. If hard clipping occurred, only the aligned portion is represented, if soft clipping occurred, the original sequence is present.
 
 ### Bed file type

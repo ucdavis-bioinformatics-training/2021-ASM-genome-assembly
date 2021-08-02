@@ -2,6 +2,10 @@
 
 *Hannah Lyman, PhD, University of California, Davis*
 
+
+The ASM Recording that accompanies this section can be found [here](https://video.ucdavis.edu/media/ASM_Lyman_Part2/1_ytfxmobw)
+
+
 ## Assembling a bacterial genome with PacBio sequence data
 
 The data and pipeline in this tutorial are adapted from **Complete Genome Sequence of *Bacillus* sp. Strain Rz2MS9, a Multitrait Plant Growth Promoter**. When referring to this pipeline, please cite the [publication](https://journals.asm.org/doi/full/10.1128/MRA.00623-20).
